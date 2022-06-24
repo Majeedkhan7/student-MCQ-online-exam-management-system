@@ -1,9 +1,9 @@
-html, body {
+html,body {
     height: 100%;
   }
       .side{
           height: 100%;
-          background-color:cornflowerblue;
+          background-color:#81d4fa;
           width: 5%;
           float: left;
   
@@ -27,6 +27,16 @@ html, body {
           width:15%;
       }
       th{
-          background-color:cornflowerblue;
-          
+          background-color:#81d4fa; 
       }
+      .btnsearch {        
+        background: #6665ee;
+        color: white;
+    }
+    .btnsearch:hover{
+        background: #5757d1;
+        color: white;
+    }
+    .bar{
+        float: right;
+    }

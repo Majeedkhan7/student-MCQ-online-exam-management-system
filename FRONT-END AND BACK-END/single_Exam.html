@@ -9,35 +9,99 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
-<style>
-    html, body {
-    height: 100%;
-  }
-      .side{
-          height: 100%;
-          background-color:cornflowerblue;
-          width: 5%;
-          float: left;
-  
-      }
-      .side2{
-          height: 100%;
-          margin-left: 5%;
-      }
-      .main{
-          margin-left: 40px;
-          margin-right: 20px;
-         padding-top: 100px;
-          
-      }
-</style>
+<link rel="stylesheet" href="assets/css/single_exam.css">
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.datetimepicker.css" >
+<script src="assets/js/jquery.js"></script>
+<script src="assets/js/jquery.datetimepicker.full.min.js"></script>
 <body>
     <div style="height:100%;">
         <div class="side"> 
         </div>
-        <div class="side2"> 
-            
+        <div class="side2 border">
+          <div class="examname">
+            <a href=""><i class="fas fa-chevron-left fa-2x"></i></a>
+            <input type="text" class="form-control exam"  placeholder="Exam name">
+          </div>
+         
+            <div class="main">   
+                <div class="form-group pull-right control">
+                    <label for="Question" id="Question">Question List</label>
+                    <button type="button" class="btn btn-danger p-2 ml-auto" data-toggle="modal" data-target="#myModal">Add Question</button>
+                </div>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Question</th>
+                      <th>Answers</th>
+                    </tr>
+                  </thead>
+                  <tbody id="jar">
+                    <tr class="content">
+                      <td>Which laboratory was Java invented or developed in?</td>
+                      <td>1.Bell Laboratory  2.Sun Microsystems  3.Dennis Ritchie Office  4.Johnson and Johnson</td>                     </tr>
+                  </tbody>
+                </table>
+                <nav class="bar">
+                  <ul class="pagination justify-content-center pagination-sm">
+                  </ul>
+              </nav>
+                <div class="container">
+                   <div class="row">
+                      <div class="col-sm">
+                        <input type="text" class="form-control" id="datetimepicker"  placeholder="Exam Date Time">
+                      </div>
+                      <div class="col-sm">
+                        <input type="number" class="form-control"  placeholder="Exam Duration" min="1">
+                      </div>
+                      <div class="col-sm">
+                        <button type="button" class="btn Publish">Publish Paper</button>
+                      </div>
+                      <div class="col-sm">
+                        <button type="button" class="btn btn-success">Save</button>
+                      </div>
+                    </div>
+                   </div>
+                </div>
         </div>
     </div>
+    <!--- Question Model-->
+    <div class="modal fade" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+        
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">ADD NEW Question</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <form>
+          <!-- Modal body -->
+          <div class="modal-body">
+            <input type="text" class="form-control" placeholder="Question Name">
+            <br>
+            <label for="a"> Answers list</label>
+         
+            <div class="d-flex flex-column mb-3">
+              <div class="p-2 group d-flex flex-row"><input name="radio" value="1-Year" class="radio1" type="radio"><span class="Correct">correct</span><input type="text" class="form-control a" placeholder="Answer 1"></div>
+              <div class="p-2 group d-flex flex-row"><input name="radio" value="1-Year"  class="radio1" type="radio"><span class="Correct">correct</span><input type="text" class="form-control a" placeholder="Answer 2" ></div>
+              <div class="p-2 group d-flex flex-row"><input name="radio" value="1-Year"  class="radio1" type="radio"><span class="Correct">correct</span><input type="text" class="form-control a" placeholder="Answer 3" ></div>
+              <div class="p-2 group d-flex flex-row"><input name="radio" value="1-Year"  class="radio1" type="radio"><span class="Correct">correct</span><input type="text" class="form-control a" placeholder="Answer 4"></div>
+            </div>
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success"  >ADD</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+     <!---  End Question Model-->
 </body>
 </html>
+<script src="assets/js/singleexam.js"></script>
+<script src="assets/js/script.js"></script>
+<script>
+  jQuery('#datetimepicker').datetimepicker();
+</script>
