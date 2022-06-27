@@ -15,24 +15,33 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js" integrity="sha512-IZ95TbsPTDl3eT5GwqTJH/14xZ2feLEGJRbII6bRKtE/HC6x3N4cHye7yyikadgAsuiddCY2+6gMntpVHL1gHw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
+
+  
+
 <div class="shadow login-form border bg-white rounded">
-    <form action="" method="post" onsubmit="return validate()">   
+    <?php if (isset($_GET['error'])) { ?>
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <?php echo $_GET['error']; ?>
+      </div>
+      <?php }?>
+    <form action="Sign.php" method="post" onsubmit="return validate()">   
         <div class="form-group">
             <label for="floatingInput">Email Address</label>
-            <input type="text" class="form-control" placeholder="Email Address" id="email">
+            <input type="text" class="form-control" placeholder="Email Address" id="email" name="email">
             <i class="fas fa-check-circle er"></i>
 			<i class="fas fa-exclamation-circle ew"></i>
 			<small class="e-error" style="display: none;color: red;">You have entered an invalid email address!</small>
         </div>
         <div class="form-group">
             <label for="floatingInput">Password</label>
-            <input type="password" class="form-control" placeholder="Password" id="pwd">
+            <input type="password" class="form-control" placeholder="Password" id="pwd" name="password">
             <i class="fas fa-check-circle pr"></i>
 			<i class="fas fa-exclamation-circle pw"></i>
 			<small class="p-error" style="display: none;color: red;">password must have at least 8 characters</small>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-block">Sign in</button>
+            <button type="submit" class="btn btn-block" name="Sign">Sign in</button>
         </div>     
     </form>
 </div>

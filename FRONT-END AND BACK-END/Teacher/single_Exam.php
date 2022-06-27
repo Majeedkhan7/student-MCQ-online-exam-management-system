@@ -1,3 +1,12 @@
+<?php 
+session_start();
+
+if (!isset($_SESSION['teacher_login_id']))
+{
+  header("Location: ../index.php?error=You Need To Login First");
+  exit();
+}
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +28,7 @@
         </div>
         <div class="side2 border">
           <div class="examname">
-            <a href="Teacher_home.html"><i class="fas fa-chevron-left fa-2x"></i></a>
+            <a href="Teacher_home.php"><i class="fas fa-chevron-left fa-2x"></i></a>
             <input type="text" class="form-control exam"  placeholder="Exam name">
           </div>
          
@@ -37,8 +46,9 @@
                   </thead>
                   <tbody id="jar">
                     <tr class="content">
-                      <td>Which laboratory was Java invented or developed in?</td>
-                      <td>1.Bell Laboratory  2.Sun Microsystems  3.Dennis Ritchie Office  4.Johnson and Johnson</td>                     </tr>
+                      <td> </td>
+                      <td> </td>                    
+                     </tr>
                   </tbody>
                 </table>
                 <nav class="bar">

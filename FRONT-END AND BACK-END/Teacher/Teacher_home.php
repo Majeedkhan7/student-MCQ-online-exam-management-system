@@ -1,3 +1,12 @@
+<?php 
+session_start();
+
+if (!isset($_SESSION['teacher_login_id']))
+{
+  header("Location: ../index.php?error=You Need To Login First");
+  exit();
+}
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +31,7 @@
                     <input type="text" class="search form-control datasearch" placeholder="Search..." required>
                     <button type="submit" class="btn btn-primary btnsearch">Search</button>
               </form>  
-                    <a href="single_Exam.html" class="btn btn-success p-2 ml-auto">New Exam</a>
+                    <a href="single_Exam.php" class="btn btn-success p-2 ml-auto">New Exam</a>
                 </div>
                 <table class="table table-bordered">
                   <thead>

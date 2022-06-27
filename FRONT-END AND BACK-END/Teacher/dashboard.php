@@ -1,3 +1,12 @@
+<?php 
+session_start();
+
+if (!isset($_SESSION['teacher_login_id']))
+{
+  header("Location: ../index.php?error=You Need To Login First");
+  exit();
+}
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
