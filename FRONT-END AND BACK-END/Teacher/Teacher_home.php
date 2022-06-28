@@ -42,76 +42,28 @@ if (!isset($_SESSION['teacher_login_id']))
                     </tr>
                   </thead>
                   <tbody id="jar">
-                    <tr class="content">
-                      <td>Year end exam</td>
-                      <td>2021-12-02 09.00am</td>
-                      <td> <a href="single_Exam.html"> Draft</a></td>
-                    </tr>
-                    <tr class="content">
-                        <td>Mid-Year exam</td>
-                        <td>2021-04-02 09.00am</td>
-                        <td> <a href="monitorexam.html"> Published</a> </td>
-                      </tr>
-                      <tr class="content">
-                        <td>Mid-Year exam</td>
-                        <td>2021-04-02 09.00am</td>
-                        <td> <a href="monitorexam.html"> Published</a> </td>
-                      </tr>
-                      <tr class="content">
-                        <td>Mid-Year exam</td>
-                        <td>2021-04-02 09.00am</td>
-                        <td> <a href="monitorexam.html"> Published</a> </td>
-                      </tr>
-                      <tr class="content">
-                        <td>Mid-Year exam</td>
-                        <td>2021-04-02 09.00am</td>
-                        <td> <a href="monitorexam.html"> Published</a> </td>
-                      </tr>
-                      <tr class="content">
-                        <td>Mid-Year exam</td>
-                        <td>2021-04-02 09.00am</td>
-                        <td> <a href="monitorexam.html"> Published</a> </td>
-                      </tr>
-                      <tr class="content">
-                        <td>Mid-Year exam</td>
-                        <td>2021-04-02 09.00am</td>
-                        <td> <a href="monitorexam.html"> Published</a> </td>
-                      </tr>
-                      <tr class="content">
-                        <td>Year end exam</td>
-                        <td>2021-12-02 09.00am</td>
-                        <td> <a href="single_Exam.html"></a> Draft</td>
-                      </tr>
-                      <tr class="content">
-                          <td>Mid-Year exam</td>
-                          <td>2021-04-02 09.00am</td>
-                          <td> <a href="monitorexam.html"> Published</a> </td>
-                        </tr>
-                        <tr class="content">
-                          <td>Mid-Year exam</td>
-                          <td>2021-04-02 09.00am</td>
-                          <td> <a href="monitorexam.html"> Published</a> </td>
-                        </tr>
-                        <tr class="content">
-                          <td>Mid-Year exam</td>
-                          <td>2021-04-02 09.00am</td>
-                          <td> <a href="monitorexam.html"> Published</a> </td>
-                        </tr>
-                        <tr class="content">
-                          <td>Mid-Year exam</td>
-                          <td>2021-04-02 09.00am</td>
-                          <td> <a href="monitorexam.html"> Published</a> </td>
-                        </tr>
-                        <tr class="content">
-                          <td>Mid-Year exam</td>
-                          <td>2021-04-02 09.00am</td>
-                          <td> <a href="monitorexam.html"> Published</a> </td>
-                        </tr>
-                        <tr class="content">
-                          <td>Mid-Year exam</td>
-                          <td>2021-04-02 09.00am</td>
-                          <td> <a href="monitorexam.html"> Published</a> </td>
-                        </tr>
+                  <?php 
+                  require('../database_connection.php');
+                  $sql = "SELECT * FROM `exams` WHERE teacherid='$_SESSION[teacher_login_id]'";
+                  $result=mysqli_query($conn,$sql);
+                  if($result->num_rows > 0)
+                  {
+                     
+                      while ($row=mysqli_fetch_array($result))
+                      {
+                       echo"<tr class='content'>";
+                       echo"<td>".$row['name']."</td>";
+                       echo"<td>".$row['updatedate']."</td>"; 
+                       if($row['status']=='draft'){
+                        echo"<td>".'<a href="single_Exam.php?id=' . $row['id'] . '">'.$row['status']."</td>";
+                       }else{
+                        echo"<td>".'<a href="monitorexam.php?id=' . $row['id'] . '">'.$row['status']."</td>";
+                       }
+                     
+                       echo"</tr>";
+                      }
+                  }
+                    ?>
                   </tbody>
                 </table>
                 <nav class="bar">
