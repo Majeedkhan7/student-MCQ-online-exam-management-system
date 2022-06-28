@@ -17,12 +17,12 @@ if(isset($_POST['Sign'])){
         if($rowcount==1){
             $data=mysqli_fetch_assoc($result);
             if($data['usertype']=='Student'){
-                $_SESSION['student_login_id'] = $dat['id'];
-            	header("Location: student/student_home.html");
+                $_SESSION['student_login_id'] = $data['id'];
+            	header("Location: student/student_home.php");
 		        exit();
             }else{
                 $_SESSION['teacher_login_id'] = $data['id'];
-            	header("Location: Teacher/Teacher_home.html");
+            	header("Location: Teacher/Teacher_home.php");
 		        exit();
             }
         }else{

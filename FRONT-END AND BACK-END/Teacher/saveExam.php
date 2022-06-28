@@ -15,7 +15,7 @@ if(isset($_POST['save']))
     if($_POST['question']==''){
       header("Location: single_Exam.php?id=$_POST[examid]");
     }
-  $sql="SELECT * FROM `question` WHERE examid='1' ORDER by (questionNo) DESC LIMIT 1";
+  $sql="SELECT * FROM `question` WHERE examid='$_POST[examid]' ORDER by (questionNo) DESC LIMIT 1";
   $result=mysqli_query($conn,$sql);
   if($result->num_rows > 0){
     $row=mysqli_fetch_array($result);
@@ -26,7 +26,7 @@ if(isset($_POST['save']))
 
     for($i=0;$i<$noques;$i++)
     {
-        $num=+1;
+        $num+=1;
        $sql="INSERT INTO `question`(`questionNo`, `Question`, `examid`)
        VALUES ('$num','$question[$i]','$_POST[examid]')";
        if (mysqli_query($conn, $sql)) 
@@ -127,8 +127,24 @@ if(isset($_POST['publish']))
     $sql="UPDATE `exams` SET `status`='published' WHERE id='$_POST[examid]'";
     if ($conn->query($sql) === TRUE) 
     {
+      $sql="SELECT * FROM `students`";
+      $result=mysqli_query($conn,$sql);
+      if ($result->num_rows >= 0) {
+        while($row = $result->fetch_assoc()) {
+          echo $row['id'];
+        $sql2="INSERT INTO `student_has_exam`(`student_id`, `Exam_id`, `Examstatus`) 
+         VALUES ('$row[id]','$_POST[examid]','Pending')";
+         mysqli_query($conn,$sql2);
+        }
+      } 
+      else {
+        echo "0 results";
+      }
+
       header("Location: Teacher_home.php");
     }
+
+
   }
   else{
     if($_POST['question']==''){
@@ -171,7 +187,15 @@ if(isset($_POST['publish']))
                   mysqli_query($conn,$sql);
                 }
   
-  
+                $sql3="SELECT * FROM `students`";
+                $result3=mysqli_query($conn,$sql3);
+                if ($result3->num_rows >= 0) {
+                  while($row3 = $result3->fetch_assoc()) {
+                  $sql4="INSERT INTO `student_has_exam`(`student_id`, `Exam_id`, `Examstatus`) 
+                   VALUES ('$row3[id]','$exam_id','Pending')";
+                   mysqli_query($conn,$sql4);
+                  }
+                }
               }
               else 
               {

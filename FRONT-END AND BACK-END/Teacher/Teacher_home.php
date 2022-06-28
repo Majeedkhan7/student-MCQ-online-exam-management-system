@@ -26,10 +26,11 @@ if (!isset($_SESSION['teacher_login_id']))
         </div>
         <div class="side2 border"> 
             <div class="main">   
-              <form action="">
+              <form action="" method="POST">
                 <div class="form-group pull-right search">
-                    <input type="text" class="search form-control datasearch" placeholder="Search..." required>
-                    <button type="submit" class="btn btn-primary btnsearch">Search</button>
+                    <input type="text" class="search form-control datasearch" placeholder="Search..." name="searchvalue" required>
+                    <button type="submit" class="btn btn-primary btnsearch" name="search">Search</button>
+                    <a href="Teacher_home.php" class="btn btn-warning ml-3">Reset</a>
               </form>  
                     <a href="single_Exam.php" class="btn btn-success p-2 ml-auto">New Exam</a>
                 </div>
@@ -45,6 +46,9 @@ if (!isset($_SESSION['teacher_login_id']))
                   <?php 
                   require('../database_connection.php');
                   $sql = "SELECT * FROM `exams` WHERE teacherid='$_SESSION[teacher_login_id]'";
+                  if(isset($_POST['search'])){
+                    $sql="SELECT * FROM `exams` WHERE teacherid='$_SESSION[teacher_login_id]' and name LIKE '%$_POST[searchvalue]%'";
+                  }
                   $result=mysqli_query($conn,$sql);
                   if($result->num_rows > 0)
                   {

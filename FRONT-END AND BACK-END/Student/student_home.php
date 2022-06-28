@@ -26,10 +26,11 @@ if (!isset($_SESSION['student_login_id']))
         </div>
         <div class="side2 border"> 
             <div class="main">   
-              <form action="">
+              <form action="" method="POST">
                 <div class="form-group pull-right search">
-                    <input type="text" class="search form-control datasearch" placeholder="Search..." required>
-                    <button type="submit" class="btn btn-primary btnsearch">Search</button>
+                    <input type="text" class="search form-control datasearch" placeholder="Search... " name="searchvalue"  required>
+                    <button type="submit" class="btn btn-primary btnsearch" name="search">Search</button>
+                    <a href="student_home.php" class="btn btn-warning ml-3">Reset</a>
               </form>  
                    
                 </div>
@@ -43,18 +44,32 @@ if (!isset($_SESSION['student_login_id']))
                     </tr>
                   </thead>
                   <tbody id="jar">
-                    <tr class="content">
-                      <td>Year end exam</td>
-                      <td>2021-12-02 09.00am</td>
-                      <td>1h 30min</td>
-                      <td> <a href="ExamResults.html">  Attended</a></td>
-                    </tr>
-                    <tr class="content">
-                        <td>Year end exam</td>
-                        <td>2021-12-02 09.00am</td>
-                        <td>1h 30min</td>
-                        <td><a href="SingleExam.html">  Pending</a></td>
-                      </tr>
+                  <?php 
+                  require('../database_connection.php');
+                  $sql = "SELECT * FROM `student_has_exam` INNER JOIN exams ON student_has_exam.Exam_id=exams.id";
+                  if(isset($_POST['search'])){
+                    $sql="SELECT * FROM `student_has_exam` INNER JOIN exams ON student_has_exam.Exam_id=exams.id WHERE name LIKE '%$_POST[searchvalue]%'";
+                  }
+                  $result=mysqli_query($conn,$sql);
+                  if($result->num_rows > 0)
+                  {
+                     
+                      while ($row=mysqli_fetch_array($result))
+                      {
+                       echo"<tr class='content'>";
+                       echo"<td>".$row['name']."</td>";
+                       echo"<td>".$row['dateandtime']."</td>"; 
+                       echo"<td>".$row['duration']."</td>"; 
+                       if($row['Examstatus']=='pending'||$row['Examstatus']=='draft'){
+                        echo"<td>".'<a href="SingleExam.php?id=' . $row['Exam_id'] . '">'.$row['Examstatus']."</td>";
+                       }else{
+                        echo"<td>".'<a href="SingleExam.php?id=' . $row['Exam_id'] . '">'.$row['Examstatus']."</td>";
+                       }
+                     
+                       echo"</tr>";
+                      }
+                  }
+                    ?>
                   </tbody>
                 </table>
                 <nav class="bar">

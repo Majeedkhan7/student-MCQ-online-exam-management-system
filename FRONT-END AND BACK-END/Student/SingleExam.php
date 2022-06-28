@@ -6,6 +6,12 @@ if (!isset($_SESSION['student_login_id']))
   header("Location: ../index.php?error=You Need To Login First");
   exit();
 }
+
+if(isset($_GET['id'])){
+
+}
+
+
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +44,7 @@ if (!isset($_SESSION['student_login_id']))
                     <div class="d-flex flex-row"><input name="radio" value="1-Year"  class="radio1" type="radio"><label for="">anwser 4</label></div>
                   </div>
                   <div class="d-flex flex-row justify-content-between w-25">
-                    <button type="button" class="btn btn-secondary" disabled>Pervious</button>
+                    <button type="button" class="btn btn-secondary">Pervious</button>
                     <label for="" id="currentquestion"> Question 1</label>
                     <button type="button" class="btn btn-secondary">Next</button>
                   </div>
