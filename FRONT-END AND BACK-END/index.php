@@ -1,3 +1,16 @@
+<?php 
+session_start();
+if (isset($_SESSION['teacher_login_id']))
+{
+  header("Location: Teacher/Teacher_home.php");
+  exit();
+}
+if(isset($_SESSION['student_login_id']))
+{
+  header("Location: student/student_home.php");
+  exit();
+}
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

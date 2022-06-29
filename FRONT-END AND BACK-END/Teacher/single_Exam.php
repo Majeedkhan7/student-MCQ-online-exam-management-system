@@ -48,7 +48,7 @@ if (!isset($_SESSION['teacher_login_id']))
         </div>
         <div class="side2 border">
         <?php if (isset($_GET['error'])) { ?>
-    <div class="alert alert-danger alert-dismissible">
+        <div class="alert alert-danger alert-dismissible">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <?php echo $_GET['error']; ?>
       </div>
@@ -140,7 +140,7 @@ if (!isset($_SESSION['teacher_login_id']))
                           echo  rtrim($options,",");
                         }
                         echo"</td>";
-                        echo"<td>".'<a class="btn btn-danger" href="single_Exam.php?delete=' . $row1['id']. '& id='.$row['id']. '">Delete</a>'."</td>";
+                        echo"<td>".'<a class="btn btn-danger btn-sm" href="single_Exam.php?delete=' . $row1['id']. '& id='.$row['id']. '">Delete</a>'."</td>";
                         echo"</tr>";
                         }
                     }

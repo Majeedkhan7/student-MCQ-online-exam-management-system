@@ -74,7 +74,7 @@ console.log(correctans);
 
     td1.innerHTML='<input type="hidden" name="question[]" value="'+ques+'">'+ques;
     td2.innerHTML='<input type="hidden" name="ansers[]" value="'+cars+'"><input type="hidden" name="correctans[]" value="'+correctans+'">'+ans1+','+ans2+','+ans3+','+ans4;
-    td3.innerHTML='<button class="btn btn-danger btnDelete">Delete</button>';
+    td3.innerHTML='<button class="btn btn-danger btn-sm btnDelete">Delete</button>';
 
     document.getElementById("tbl").appendChild(tr);
   

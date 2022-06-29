@@ -31,8 +31,13 @@ if (!isset($_SESSION['teacher_login_id']))
                     <input type="text" class="search form-control datasearch" placeholder="Search..." name="searchvalue" required>
                     <button type="submit" class="btn btn-primary btnsearch" name="search">Search</button>
                     <a href="Teacher_home.php" class="btn btn-warning ml-3">Reset</a>
+                    <a href="single_Exam.php" class="btn btn-success ml-3">New Exam</a>
+
+                
               </form>  
-                    <a href="single_Exam.php" class="btn btn-success p-2 ml-auto">New Exam</a>
+                   
+                    <a href="../logout.php" class="btn btn-info  p-2 ml-auto">Logout</a>
+                      
                 </div>
                 <table class="table table-bordered">
                   <thead>
@@ -75,8 +80,12 @@ if (!isset($_SESSION['teacher_login_id']))
                   </ul>
               </nav>
               </div>
+              
         </div>
+
+       
     </div>
+   
 </body>
 </html>
 <script src="../assets/js/script.js"></script>

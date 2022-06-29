@@ -1,6 +1,7 @@
 <?php 
 session_start();
 
+require '../database_connection.php';
 if (!isset($_SESSION['student_login_id']))
 {
   header("Location: ../index.php?error=You Need To Login First");
@@ -8,7 +9,11 @@ if (!isset($_SESSION['student_login_id']))
 }
 
 if(isset($_GET['id'])){
-
+  $sql = "SELECT * FROM `exams` WHERE id='$_GET[id]'";
+  $result = $conn->query($sql);
+  $exam = $result->fetch_assoc();
+  
+  
 }
 
 
@@ -31,24 +36,37 @@ if(isset($_GET['id'])){
             </div>
             <div class="side2 border">
               <div class="mt-5 ml-3 d-flex flex-row">
-                <a href="student_home.html"><i class="fas fa-chevron-left fa-2x"></i></a>
-                <h3 class="ml-3" >Exam Name</h3>
+                <a href="student_home.php"><i class="fas fa-chevron-left fa-2x"></i></a>
+                <h3 class="ml-3" ><?php echo $exam['name']?></h3>
             </div>
                 <h5 class="text-center mt-5">Time Left 00:15 mins</h5>
                 <div class="d-flex flex-column align-items-center" >
-                  <label for="">Q.1) What is the correct HTML tag for playing video files</label>
-                  <div class="d-flex flex-column mb-3 border w-25 pl-3 pt-2">
-                    <div class="d-flex flex-row"><input name="radio" value="1-Year" class="radio1" type="radio"><label for="">anwser 1</label></div>
-                    <div class="d-flex flex-row"><input name="radio" value="1-Year"  class="radio1" type="radio"><label for="">anwser 2</label></div>
-                    <div class="d-flex flex-row"><input name="radio" value="1-Year"  class="radio1" type="radio"><label for="">anwser 3</label></div>
-                    <div class="d-flex flex-row"><input name="radio" value="1-Year"  class="radio1" type="radio"><label for="">anwser 4</label></div>
-                  </div>
+                  <?php
+                  $qustionsql="SELECT * FROM `question` WHERE examid='$exam[id]'";
+                  $questionresult = $conn->query($qustionsql);
+                  
+                  if ( $questionresult ->num_rows > 0) {
+                    while($que =$questionresult ->fetch_assoc()) {
+                           echo '<label for="">Q'.$que['questionNo'].')'.$que['Question'] .'</label>';
+                          $qustionsoption="SELECT * FROM `options` WHERE questionId='$que[id]'";
+                          $optionresult = $conn->query( $qustionsoption);
+                          if ($optionresult ->num_rows > 0) {
+                            echo'<div class="d-flex flex-column mb-3 border w-25 pl-3 pt-2">';
+                            while($ans =$optionresult ->fetch_assoc()) {
+                            echo'<div class="d-flex flex-row"><input name="ans[]" value="'.$ans['optionvalue']. '" class="radio1" type="radio"><label for="">'.$ans['optionvalue'].'</label></div>';
+                            }
+                           echo'</div>';
+                          }
+                    }
+                  } 
+                  ?>
                   <div class="d-flex flex-row justify-content-between w-25">
                     <button type="button" class="btn btn-secondary">Pervious</button>
                     <label for="" id="currentquestion"> Question 1</label>
                     <button type="button" class="btn btn-secondary">Next</button>
                   </div>
                 </div>
+           
                 <div>
                   <nav aria-label="...">
                     <ul class="pagination pagination-sm justify-content-center">
