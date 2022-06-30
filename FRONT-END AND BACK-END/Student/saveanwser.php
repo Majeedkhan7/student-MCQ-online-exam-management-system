@@ -1,9 +1,5 @@
 <?php
-
-if(isset($_POST['submit'])){
-  
-	$s=$_POST['choice'];
-    print_r($s);
-}
+$arr=explode(",",$_GET['data']);
+print_r($arr);
 
 ?>

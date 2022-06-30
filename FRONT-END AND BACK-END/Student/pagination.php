@@ -39,7 +39,7 @@
           while($ans =$optionresult ->fetch_assoc()) 
           {
    
-           $output.='<div class="d-flex flex-row"><input id="'.$row['questionNo'].$ans['optionvalue'].'" name="choice" data-id="'.$row['questionNo']. '" data-value="'.$ans['optionvalue']. '" value="'.$ans['optionvalue']. '" class="radio1" type="radio"><label for="">'.$ans['optionvalue'].'</label></div>';
+           $output.='<div class="d-flex flex-row"><input id="quesans" name="choice" data-id="'.$row['questionNo']. '" data-value="'.$ans['optionvalue']. '" value="'.$ans['optionvalue']. '" class="radio1" type="radio"><label for="">'.$ans['optionvalue'].'</label></div>';
          
           }
           $output.='</div>';
