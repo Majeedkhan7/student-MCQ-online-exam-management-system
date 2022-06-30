@@ -56,6 +56,13 @@ $_SESSION["end_time"]=$end_time;
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 <link rel="stylesheet" href="../assets/css/Exam.css">
+<style>
+      .radio1{
+        position: relative;
+        top: -5px;
+        margin-right: 10px;
+        }
+</style>
 <body>
   	    <div style="height:100%;">
             <div class="side"> 
@@ -64,23 +71,27 @@ $_SESSION["end_time"]=$end_time;
               <div class="mt-5 ml-3 d-flex flex-row">
                 <a href="student_home.php"><i class="fas fa-chevron-left fa-2x"></i></a>
                 <h3 class="ml-3" ><?php echo   $_SESSION["name"] ;?></h3>
-                     </div>
+                     
+               </div>
             <form method="POST" action="saveanwser.php">
                 <h5 class="ml-2 text-center" id="response"></h5>
                 <div class="d-flex flex-column align-items-center" id="pagination_data">
-                
+
+
+                </div>
                 <div class="mt-5 btncontrol">
                   <button class="btn btn-primary">Save</button>
                   <button class="btn btn-info">Complete</button>
                 </div>
             </div> 
+
         </div>
 </body>
 </html>
-
-
-
 <script>  
+
+const main=[];
+
  $(document).ready(function(){  
       load_data();  
       function load_data(page)  
@@ -90,13 +101,28 @@ $_SESSION["end_time"]=$end_time;
                 method:"POST",  
                 data:{page:page},  
                 success:function(data){  
-                     $('#pagination_data').html(data);  
+                     $('#pagination_data').html(data); 
+                     ok(); 
                 }  
            })  
+        
+       
       }  
       $(document).on('click', '.pagination_link', function(){  
            var page = $(this).attr("id");  
            load_data(page);  
+      });
+      
+      $(document).on('change', '.radio1', function(){  
+           var ans = $(this).data("value");  
+           var questionNo= $(this).data("id");
+          main[questionNo]=ans;
+    
       });  
  });  
+
+function ok(){
+
+   $("input:radio[value='Bytecode is executed by JVM']").prop('checked',true);
+}
  </script>  
