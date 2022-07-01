@@ -81,7 +81,7 @@ $_SESSION["end_time"]=$end_time;
                 </div>
                 <div class="mt-5 btncontrol">
                   <button class="btn btn-primary" onclick="save()">Save</button>
-                  <button class="btn btn-info">Complete</button>
+                  <button class="btn btn-info" onclick="complete()">Complete</button>
                 </div>
             </div> 
 
@@ -93,6 +93,7 @@ $_SESSION["end_time"]=$end_time;
 <script>  
 
 const main=[];
+const quesno=[];
 
  $(document).ready(function(){  
       load_data();  
@@ -118,14 +119,15 @@ const main=[];
       $(document).on('change', '.radio1', function(){  
            var ans = $(this).data("value");  
            var questionNo= $(this).data("id");
-          main[questionNo]=ans;
+          main.push(ans);
+          quesno.push(questionNo)
            ok(); 
       });  
  });  
 
 function ok(){
   const nodeList = document.querySelectorAll("[name='choice']");
-    for(var j=1; j<main.length; j++){
+    for(var j=0; j<main.length; j++){
       
           for(var i=0; i<nodeList.length; i++){
 
@@ -134,12 +136,41 @@ function ok(){
                }
           }
 }
+
+
+console.log(main)
+console.log(quesno)
 }
 
 
 
 function save(){
-var src="saveanwser.php?data="+main;
-window.location.href=src;
+
+$.ajax({  
+           url:"new.php",  
+           method:"POST", 
+           data:{id:main,name:quesno},
+           type:'JSON', 
+           success:function(data){  
+               window.location.assign("student_home.php");
+           }  
+            
+      })  
+
+}
+
+function complete(){
+
+$.ajax({  
+           url:"complete.php",  
+           method:"POST", 
+           data:{id:main,name:quesno},
+           type:'JSON', 
+           success:function(data){  
+               window.location.assign("ExamResults.php");
+           }  
+            
+      })  
+
 }
  </script>  

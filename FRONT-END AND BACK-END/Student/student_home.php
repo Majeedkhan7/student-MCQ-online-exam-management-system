@@ -46,13 +46,11 @@ if (!isset($_SESSION['student_login_id']))
                   <tbody id="jar">
                   <?php 
                   require('../database_connection.php');
-                  $sql = "SELECT * FROM `student_has_exam` WHERE student_id='$_SESSION[student_login_id]'";
-                  if(isset($_POST['search'])){
-                    $sql="SELECT * FROM `student_has_exam` INNER JOIN exams ON student_has_exam.Exam_id=exams.id WHERE name LIKE '%$_POST[searchvalue]%'";
-                  }
-                  $result=mysqli_query($conn,$sql);
-                  if($result->num_rows == 0)
-                  {
+                 // $sql = "SELECT * FROM `student_has_exam` WHERE student_id='$_SESSION[student_login_id]'";
+              
+                  //$result=mysqli_query($conn,$sql);
+                  //if($result->num_rows == 0)
+                  //{
                     $sql1 = "SELECT * FROM `exams` WHERE status='published'";  
                     $result1=mysqli_query($conn,$sql1);
                       while ($row=mysqli_fetch_array($result1))
@@ -64,7 +62,7 @@ if (!isset($_SESSION['student_login_id']))
                         echo"<td>".'<a href="SingleExam.php?id=' . $row['id'] . '">'.'Pending'."</td>";
                        echo"</tr>";
                       }
-                  }
+                  //  }
                     ?>
                   </tbody>
                 </table>

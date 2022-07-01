@@ -1,5 +1,10 @@
 <?php
-$arr=explode(",",$_GET['data']);
-print_r($arr);
+if(isset($_POST["da"]))  {
+$out="o";
+}
+if(isset($_POST["di"]))  {
+    $out.="kay";
+   }
 
+   echo $out;
 ?>

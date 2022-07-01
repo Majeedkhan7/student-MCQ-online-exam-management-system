@@ -27,6 +27,7 @@ if(isset($_POST['save']))
         for($i=0;$i<$noques;$i++)
         {
             $num+=1;
+          $canser=$_POST['correctans'];
            $sql="INSERT INTO `question`(`questionNo`, `Question`, `examid`)
            VALUES ('$num','$question[$i]','$_POST[examid]')";
            if (mysqli_query($conn, $sql)) 
