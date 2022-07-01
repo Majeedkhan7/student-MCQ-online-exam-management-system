@@ -8,15 +8,24 @@ if (!isset($_SESSION['student_login_id']))
   exit();
 }
 
-if(isset($_GET['id'])){
-  $sql = "SELECT * FROM `exams` WHERE id='$_GET[id]'";
-  $result = $conn->query($sql);
-  $exam = $result->fetch_assoc();
 
-  $_SESSION["name"] = $exam['name'];
-  $_SESSION["examid"] = "$_GET[id]";
-  
+if(isset($_GET['id'])){
+     $sql = "SELECT * FROM `exams` WHERE id='$_GET[id]'";
+     $result = $conn->query($sql);
+     $exam = $result->fetch_assoc();
+   
+     $_SESSION["name"] = $exam['name'];
+     $_SESSION["examid"] = "$_GET[id]";
+     
+   }
+if((isset($_GET['status'])))
+{
+     if($_GET['status']=="attended"){
+           header("Location:ExamResults.php?exid=$_GET[id]");
+     }
 }
+
+
 $getans="SELECT options.optionvalue as value FROM `answers` INNER JOIN options ON answers.option_id=options.id WHERE answers.exam_id='$_SESSION[examid]' AND answers.student_id='$_SESSION[student_login_id]'";
 $getAnswer=array();
 $getansresult = $conn->query($getans);
@@ -51,7 +60,13 @@ $_SESSION["end_time"]=$end_time;
         xmlhttp.open("GET","response.php",false);
         xmlhttp.send(null);
         document.getElementById("response").innerHTML=xmlhttp.responseText;
+        var text= xmlhttp.responseText;
+          if(text =="time out"){
+               document.getElementById("myCheck").click();
+          }
+
     },1000);
+   
 </script>
 <!DOCTYPE html>
 <html lang="en">
@@ -92,7 +107,7 @@ $_SESSION["end_time"]=$end_time;
                 </div>
                 <div class="mt-5 btncontrol">
                   <button class="btn btn-primary" onclick="save()">Save</button>
-                  <button class="btn btn-info" onclick="complete()">Complete</button>
+                  <button class="btn btn-info" id="myCheck" onclick="complete()">Complete</button>
                 </div>
             </div> 
 
@@ -125,6 +140,26 @@ const quesno=[];
            var page = $(this).attr("id");  
            load_data(page);  
       });
+      $(document).on('click', '.next', function(){  
+           var totall = $(this).attr("id");  
+           var page = parseInt($(this).attr("page")); 
+           if(page<totall){
+              page+=1;
+           }
+           load_data(page);  
+          
+      });
+
+      $(document).on('click', '.Perviou', function(){  
+           var totall = $(this).attr("id");  
+           var page = parseInt($(this).attr("page")); 
+           if(page>1){
+              page-=1;
+           }
+           load_data(page);  
+          
+      });
+      
       
       $(document).on('change', '.radio1', function(){  
            var ans = $(this).data("value");  
@@ -179,6 +214,7 @@ $.ajax({
 }
 
 function complete(){
+var exid=<?php echo json_encode( $_SESSION['examid']);?>
 
 $.ajax({  
            url:"complete.php",  
@@ -186,7 +222,8 @@ $.ajax({
            data:{id:main,name:quesno},
            type:'JSON', 
            success:function(data){  
-               window.location.assign("ExamResults.php");
+               window.location.assign("ExamResults.php?exid="+exid);
+    
            }  
             
       })  

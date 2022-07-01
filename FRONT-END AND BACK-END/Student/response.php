@@ -10,5 +10,10 @@ $timesec=strtotime($to_time);
 
 
 $diff=$timesec-$timefirst;
-echo  'Timeleft:'.' '.gmdate("H:i:s",$diff).' '.'mins';
+if($diff==0 || $diff<0){
+    echo"time out"; 
+}else{
+    echo  'Timeleft:'.' '.gmdate("H:i:s",$diff).' '.'mins';
+}
+
 ?>

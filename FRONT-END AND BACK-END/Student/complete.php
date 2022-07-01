@@ -19,25 +19,48 @@ $sql="SELECT * FROM `student_has_exam` WHERE  student_id='$_SESSION[student_logi
 $result=mysqli_query($conn,$sql);
 if($result->num_rows > 0)
 {   
-  $question_an = $_POST['id'];
-  $no = $_POST['name'];
-  $c=array_combine($no,$question_an);
+  if(isset($_POST['id']) && isset($_POST['name'])){
+    $question_an = $_POST['id'];
+    $no = $_POST['name'];
+    $c=array_combine($no,$question_an);
+    foreach($c as $qus=>$ans)
+    {
+    
+        $sql="SELECT * FROM `question` WHERE examid='$_SESSION[examid]' AND questionNo='$qus'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) 
+        {
+             $row = $result->fetch_assoc();
+             $questionID=$row['id'] ;
   
-  foreach($c as $qus=>$ans)
-  {
-  
-      $sql="SELECT * FROM `question` WHERE examid='$_SESSION[examid]' AND questionNo='$qus'";
-      $result = $conn->query($sql);
-      if ($result->num_rows > 0) 
-      {
-           $row = $result->fetch_assoc();
-           $questionID=$row['id'] ;
-
-          $sqlnew="SELECT * FROM `answers` WHERE  question_id='$questionID' AND student_id='$_SESSION[student_login_id]'";
-          $resultnew = $conn->query($sqlnew);
-          if ($resultnew->num_rows > 0) 
-          {
-            $sql1="SELECT * FROM `options` WHERE questionId='$questionID' AND optionvalue='$ans'";
+            $sqlnew="SELECT * FROM `answers` WHERE  question_id='$questionID' AND student_id='$_SESSION[student_login_id]'";
+            $resultnew = $conn->query($sqlnew);
+            if ($resultnew->num_rows > 0) 
+            {
+              $sql1="SELECT * FROM `options` WHERE questionId='$questionID' AND optionvalue='$ans'";
+              $result1=$conn->query($sql1);
+              if ($result1->num_rows > 0) 
+              {
+               $row1= $result1->fetch_assoc();
+               $optionID=$row1['id'];
+               $answercheck=$row1['iscoorect'];
+               if($answercheck==1){
+                  $mark="Pass";
+               }
+               else{
+                  $mark="fail";
+               }
+               $sql3="UPDATE `answers` SET `option_id`='$optionID',`question_result`='$mark' WHERE student_id='$_SESSION[student_login_id]' AND question_id='$questionID'";
+               if ($conn->query($sql3) === TRUE) {
+                  echo "New record created successfully";
+                } else {
+                  echo "Error: " . $sql . "<br>" . $conn->error;
+                }
+      
+              }
+            }
+            else{
+              $sql1="SELECT * FROM `options` WHERE questionId='$questionID' AND optionvalue='$ans'";
             $result1=$conn->query($sql1);
             if ($result1->num_rows > 0) 
             {
@@ -50,7 +73,8 @@ if($result->num_rows > 0)
              else{
                 $mark="fail";
              }
-             $sql3="UPDATE `answers` SET `option_id`='$optionID',`question_result`='$mark' WHERE student_id='$_SESSION[student_login_id]' AND question_id='$questionID'";
+             $sql3="INSERT INTO `answers`(`option_id`, `question_id`, `student_id`, `exam_id`, `question_result`) 
+             VALUES ('$optionID','$questionID','$_SESSION[student_login_id]','$_SESSION[examid])','$mark')";
              if ($conn->query($sql3) === TRUE) {
                 echo "New record created successfully";
               } else {
@@ -58,35 +82,16 @@ if($result->num_rows > 0)
               }
     
             }
-          }
-          else{
-            $sql1="SELECT * FROM `options` WHERE questionId='$questionID' AND optionvalue='$ans'";
-          $result1=$conn->query($sql1);
-          if ($result1->num_rows > 0) 
-          {
-           $row1= $result1->fetch_assoc();
-           $optionID=$row1['id'];
-           $answercheck=$row1['iscoorect'];
-           if($answercheck==1){
-              $mark="Pass";
-           }
-           else{
-              $mark="fail";
-           }
-           $sql3="INSERT INTO `answers`(`option_id`, `question_id`, `student_id`, `exam_id`, `question_result`) 
-           VALUES ('$optionID','$questionID','$_SESSION[student_login_id]','$_SESSION[examid])','$mark')";
-           if ($conn->query($sql3) === TRUE) {
-              echo "New record created successfully";
-            } else {
-              echo "Error: " . $sql . "<br>" . $conn->error;
-            }
   
-          }
-
-          }
-           
-      }    
+            }
+             
+        }    
+    }
+  
   }
+  
+  
+
   $noofquestion="SELECT COUNT(id) as noofquestion FROM `question` WHERE examid='$_SESSION[examid]'";
   $noofquestionresult=mysqli_query($conn,$noofquestion);
   $data=$noofquestionresult->fetch_assoc();

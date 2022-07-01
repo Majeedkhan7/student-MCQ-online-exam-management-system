@@ -46,15 +46,16 @@
      }
        
  }  
- $output.='<div class="d-flex flex-row justify-content-between w-25">
- <button type="button" class="btn btn-secondary">Pervious</button>
- <label for="" id="currentquestion"> Question 1</label>
- <button type="button" class="btn btn-secondary">Next</button>
-</div>';
  $page_query = "SELECT * FROM `question` WHERE examid='$_SESSION[examid]' ";  
  $page_result = mysqli_query($connect, $page_query);  
  $total_records = mysqli_num_rows($page_result);  
- $total_pages = ceil($total_records/$record_per_page);  
+ $total_pages = ceil($total_records/$record_per_page); 
+ $output.='<div class="d-flex flex-row justify-content-between w-25">
+ <button type="button" class="btn btn-secondary Perviou" id='.$total_pages.' page='.$page.'>Pervious</button>
+ <label for="" id="currentquestion"> Question '.$page.'</label>
+ <button type="button" class="btn btn-secondary next" id='.$total_pages.' page='.$page.'>Next</button>
+</div>';
+ 
  $output .= '</div<div><nav aria-label="..."><ul class="pagination pagination-sm justify-content-center">';  
  for($i=1; $i<=$total_pages; $i++)  
  {  
