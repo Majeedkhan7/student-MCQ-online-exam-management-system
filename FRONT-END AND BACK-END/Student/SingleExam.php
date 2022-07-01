@@ -16,7 +16,17 @@ if(isset($_GET['id'])){
   $_SESSION["name"] = $exam['name'];
   $_SESSION["examid"] = "$_GET[id]";
   
-  
+}
+$getans="SELECT options.optionvalue as value FROM `answers` INNER JOIN options ON answers.option_id=options.id WHERE answers.exam_id='$_SESSION[examid]' AND answers.student_id='$_SESSION[student_login_id]'";
+$getAnswer=array();
+$getansresult = $conn->query($getans);
+
+if ($getansresult ->num_rows > 0) {
+   // output data of each row
+   while($ansdata = $getansresult ->fetch_assoc()) {
+   array_push($getAnswer,$ansdata['value']);
+   }
+
 }
  ?>
  <?php
@@ -64,6 +74,7 @@ $_SESSION["end_time"]=$end_time;
         }
 </style>
 <body>
+
   	    <div style="height:100%;">
             <div class="side"> 
             </div>
@@ -71,7 +82,7 @@ $_SESSION["end_time"]=$end_time;
               <div class="mt-5 ml-3 d-flex flex-row">
                 <a href="student_home.php"><i class="fas fa-chevron-left fa-2x"></i></a>
                 <h3 class="ml-3" ><?php echo   $_SESSION["name"] ;?></h3>
-                     
+           
                </div>
           
                 <h5 class="ml-2 text-center" id="response"></h5>
@@ -89,9 +100,8 @@ $_SESSION["end_time"]=$end_time;
 </body>
 </html>
 
-
 <script>  
-
+var abc=<?php echo json_encode($getAnswer);?>;
 const main=[];
 const quesno=[];
 
@@ -127,6 +137,16 @@ const quesno=[];
 
 function ok(){
   const nodeList = document.querySelectorAll("[name='choice']");
+  for(var j=0; j<abc.length; j++){
+      
+      for(var i=0; i<nodeList.length; i++){
+
+           if(abc[j]==nodeList[i].value){
+                nodeList[i].checked=true;
+           }
+      }
+}
+
     for(var j=0; j<main.length; j++){
       
           for(var i=0; i<nodeList.length; i++){
@@ -138,13 +158,12 @@ function ok(){
 }
 
 
-console.log(main)
-console.log(quesno)
 }
 
 
 
 function save(){
+     const nodeList = document.querySelectorAll("[name='choice']");
 
 $.ajax({  
            url:"new.php",  

@@ -46,12 +46,11 @@ if (!isset($_SESSION['student_login_id']))
                   <tbody id="jar">
                   <?php 
                   require('../database_connection.php');
-                 // $sql = "SELECT * FROM `student_has_exam` WHERE student_id='$_SESSION[student_login_id]'";
-              
-                  //$result=mysqli_query($conn,$sql);
-                  //if($result->num_rows == 0)
-                  //{
-                    $sql1 = "SELECT * FROM `exams` WHERE status='published'";  
+                
+                    $sql1 = "SELECT * FROM mcqsystem.exams left join mcqsystem.student_has_exam on mcqsystem.exams.id = mcqsystem.student_has_exam.Exam_id and (mcqsystem.student_has_exam.student_id ='$_SESSION[student_login_id]' or mcqsystem.student_has_exam.student_id is null) where mcqsystem.exams.status = 'published'";  
+                    if(isset($_POST['search'])){
+                      $sql1="SELECT * FROM mcqsystem.exams left join mcqsystem.student_has_exam on mcqsystem.exams.id = mcqsystem.student_has_exam.Exam_id and (mcqsystem.student_has_exam.student_id = 1 or mcqsystem.student_has_exam.student_id is null) where mcqsystem.exams.status = 'published' AND exams.name LIKE '%$_POST[searchvalue]%'";
+                    }
                     $result1=mysqli_query($conn,$sql1);
                       while ($row=mysqli_fetch_array($result1))
                       {
@@ -59,10 +58,14 @@ if (!isset($_SESSION['student_login_id']))
                        echo"<td>".$row['name']."</td>";
                        echo"<td>".$row['dateandtime']."</td>"; 
                        echo"<td>".$row['duration']."</td>"; 
+
+                       if($row['Examstatus']==null){
                         echo"<td>".'<a href="SingleExam.php?id=' . $row['id'] . '">'.'Pending'."</td>";
+                       }else{
+                        echo"<td>".'<a href="SingleExam.php?id=' . $row['id'] . '">'.$row['Examstatus']."</td>";
+                       }  
                        echo"</tr>";
                       }
-                  //  }
                     ?>
                   </tbody>
                 </table>
