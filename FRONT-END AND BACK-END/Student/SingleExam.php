@@ -1,6 +1,6 @@
 <?php 
 session_start();
-
+//include database connection
 require '../database_connection.php';
 if (!isset($_SESSION['student_login_id']))
 {
@@ -8,16 +8,18 @@ if (!isset($_SESSION['student_login_id']))
   exit();
 }
 
-
+//get the Exam id using GET method
 if(isset($_GET['id'])){
      $sql = "SELECT * FROM `exams` WHERE id='$_GET[id]'";
      $result = $conn->query($sql);
      $exam = $result->fetch_assoc();
-   
      $_SESSION["name"] = $exam['name'];
-     $_SESSION["examid"] = "$_GET[id]";
+     $_SESSION["examid"] = $_GET['id'];
+     $_SESSION["duration"] = $exam['duration'];
+     $_SESSION['start_time']=$exam['dateandtime'];
      
    }
+//get the Exam Status using GET Method 
 if((isset($_GET['status'])))
 {
      if($_GET['status']=="attended"){
@@ -25,8 +27,9 @@ if((isset($_GET['status'])))
      }
 }
 
-
+//get saved answer From Database
 $getans="SELECT options.optionvalue as value FROM `answers` INNER JOIN options ON answers.option_id=options.id WHERE answers.exam_id='$_SESSION[examid]' AND answers.student_id='$_SESSION[student_login_id]'";
+//crate php array for save answer(database)
 $getAnswer=array();
 $getansresult = $conn->query($getans);
 
@@ -35,51 +38,17 @@ if ($getansresult ->num_rows > 0) {
    while($ansdata = $getansresult ->fetch_assoc()) {
    array_push($getAnswer,$ansdata['value']);
    }
-
 }
  ?>
  <?php
-
-$sql="SELECT * FROM `exams` WHERE id='$_GET[id]'";
-$result=mysqli_query($conn,$sql);
-$row=mysqli_fetch_assoc($result);
-$durantion=$row['duration'];
-
+//set the time standard
 date_default_timezone_set('Asia/Kolkata');
-$_SESSION['duration']=$durantion;
-$_SESSION['start_time']=$row['dateandtime'];
+
+//calculate Exam End Time
 $end_time=$end_time=date(' Y-m-d H:i:s',strtotime('+'.$_SESSION["duration"].'minute',strtotime($_SESSION["start_time"])));
-
+//store Exam End time In session Varible
 $_SESSION["end_time"]=$end_time;
-
 ?>
-
-<script>
-var countDownDate = <?php 
-echo strtotime($_SESSION["end_time"]) ?> * 1000;
-var now = <?php echo time() ?> * 1000;
-
-// Update the count down every 1 second
-var x = setInterval(function() {
-now = now + 1000;
-// Find the distance between now an the count down date
-var distance = countDownDate - now;
-// Time calculations for days, hours, minutes and seconds
-var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-// Output the result in an element with id="demo"
-document.getElementById("response").innerHTML ="Timeleft :"+" "+ days + "d " + hours + "h " +
-minutes + "m " + seconds + "s ";
-// If the count down is over, write some text 
-if (distance < 0) {
-clearInterval(x);
-document.getElementById("myCheck").click()
-}
-    
-}, 1000);
-</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -92,16 +61,8 @@ document.getElementById("myCheck").click()
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
-<link rel="stylesheet" href="../assets/css/Exam.css">
-<style>
-      .radio1{
-        position: relative;
-        top: -5px;
-        margin-right: 10px;
-        }
-</style>
+<link rel="stylesheet" href="../assets/css/student/Exam.css">
 <body>
-
   	    <div style="height:100%;">
             <div class="side"> 
             </div>
@@ -242,3 +203,29 @@ $.ajax({
 
 }
  </script>  
+<script>
+var countDownDate = <?php 
+echo strtotime($_SESSION["end_time"]) ?> * 1000;
+var now = <?php echo time() ?> * 1000;
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+now = now + 1000;
+// Find the distance between now an the count down date
+var distance = countDownDate - now;
+// Time calculations for days, hours, minutes and seconds
+var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+// Output the result in an element with id="demo"
+document.getElementById("response").innerHTML ="Timeleft :"+" "+ days + "d " + hours + "h " +
+minutes + "m " + seconds + "s ";
+// If the count down is over, write some text 
+if (distance < 0) {
+clearInterval(x);
+document.getElementById("myCheck").click()
+}
+    
+}, 1000);
+</script>

@@ -77,4 +77,4 @@ if (!isset($_SESSION['student_login_id']))
     </div>
 </body>
 </html>
-<script src="../assets/js/script.js"></script>
+<script src="../assets/js/student/ParginationOfHomePage.js"></script>

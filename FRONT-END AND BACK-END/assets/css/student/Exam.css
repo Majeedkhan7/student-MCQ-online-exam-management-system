@@ -42,11 +42,7 @@ html, body {
       a:hover{
         color: black;
       }
-      .radio1{
-        position: relative;
-        top: 6px;
-        margin-right: 10px;
-        }
+    
         #currentquestion{
           position: relative;
           top: 5px;
@@ -54,3 +50,8 @@ html, body {
         .btncontrol{
           float: right;
         }
+        .radio1{
+          position: relative;
+          top: -4px;
+          margin-right: 10px;
+          }

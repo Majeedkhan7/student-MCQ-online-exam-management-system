@@ -1,29 +1,31 @@
 <?php 
 session_start();
+//include database connection
 require '../database_connection.php'; 
-
+//user authentication
 if (!isset($_SESSION['student_login_id']))
 {
   header("Location: ../index.php?error=You Need To Login First");
   exit();
 }
+//get the exam id using get method
 if(isset($_GET['exid'])){
     $sql = "SELECT * FROM `exams` WHERE id='$_GET[exid]'";
     $result = $conn->query($sql);
     $exam = $result->fetch_assoc();
-  
+//store exam details in session varible
     $_SESSION["name"] = $exam['name'];
     $_SESSION["examid"] = "$_GET[exid]";
     
   }
-
+  //get the result of student from database
   $selectResult="SELECT * FROM `student_has_exam` WHERE student_id='$_SESSION[student_login_id]' AND Exam_id='$_SESSION[examid]'";
   $sresult = $conn->query($selectResult);
   $resultdata = $sresult->fetch_assoc();
-
+  //store exam mark of this student
   $marks=(int)$resultdata['result'];
   $state;
-
+//exam result calculation
   if ($marks>85)
   {
       $grade = "A";
@@ -49,7 +51,6 @@ if(isset($_GET['exid'])){
       $grade = "W";
       $state="Failed";
   }
-
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -64,18 +65,19 @@ if(isset($_GET['exid'])){
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 <link rel="stylesheet" href="../assets/css/examresult.css">
 <style>
- 
+    .side2 {
+        height:571px;
+    }
 </style>
 <body>
-  	    <div>
-            <div class="side"> 
-            </div>
-            <div class="side2 border d-flex flex-column">
-                <div class="mt-5 ml-3 d-flex flex-row">
-                    <a href="student_home.php"><i class="fas fa-chevron-left fa-2x"></i></a>
-                    <h3 class="ml-3" ><?php echo $_SESSION['name']?></h3>
+  	<div>
+        <div class="side"></div>
+            <div class="side2 border d-flex flex-column" >
+                <div class="mt-4 ml-3 d-flex flex-row">
+                    <a href="student_home.php" class="mt-0"><i class="fas fa-chevron-left fa-2x"></i></a>
+                    <h3 class="ml-3 mt-0" ><?php echo $_SESSION['name']?></h3>
                 </div>
-                <div class="mt-3 ">
+                
                     <div class="border mb-1 w-25 align-items-center Result">
                         <label class="ml-4 mt-3"><b>Exam Completed</b></label>
                         <div class="d-flex flex-column text-center">
@@ -92,7 +94,7 @@ if(isset($_GET['exid'])){
                         </div>
     
                     </div>
-                    <div class="border  w-25  align-items-center Result">
+                    <div class="border pb-2  w-25  align-items-center Result">
                         <label class="ml-4 mt-3"><b> Questions</b> </label>
                         <div class="d-flex flex-column" id="jar">
 
@@ -118,19 +120,17 @@ if(isset($_GET['exid'])){
                                 }
                                 ?>
                         </div>
-                    </div>
-                    <nav class="mt-2 ml-4" >
-                        <ul class="pagination justify-content-center pagination-sm">
-                        </ul>
-                    </nav>
-                    <div class="closebtn mb-3 float-right">
-                        <a class="btn btn-secondary" href="student_home.php">Close</a>
-                    </div>
                    
-                </div>
-               
+                        <nav class="mt-1 mr-2 float-right" >
+                            <ul class="pagination justify-content-center pagination-sm">
+                            </ul>
+                        </nav>
+                        <div class="closebtn mt-5 ml-2">
+                        <a class="btn btn-secondary" href="student_home.php">Close</a>
+                        </div>
+                    </div>    
             </div> 
-        </div>
+    </div>
 </body>
 </html>
-<script src="../assets/js/script.js"></script>
+<script src="../assets/js/student/ParginationOfExamResult.js"></script>
