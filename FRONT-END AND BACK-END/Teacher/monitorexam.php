@@ -1,12 +1,91 @@
 <?php 
 session_start();
+require '../database_connection.php'; 
 
 if (!isset($_SESSION['teacher_login_id']))
 {
   header("Location: ../index.php?error=You Need To Login First");
   exit();
 }
+
+if(isset($_GET['delete'])){
+    $exid=$_GET['delete'];
+    $deleteanswers="DELETE FROM `answers` WHERE exam_id='$exid'";
+    $deleteexam="DELETE FROM `exams` WHERE id='$exid'";
+    $deletequestion="DELETE question,options FROM question LEFT JOIN options ON question.id=options.questionId WHERE question.examid='$exid'' or question.examid is null";
+    $deleteresult="DELETE FROM `student_has_exam` WHERE Exam_id='$exid'";
+    if (($conn->query($deleteanswers) === TRUE) && ($conn->query($deleteexam) === TRUE) && ($conn->query($deletequestion) === TRUE) && ($conn->query($deleteresult) === TRUE) ){
+    
+        header("Location:Teacher_home.php");
+      } else {
+        echo "Error deleting record: " . $conn->error;
+      }  
+  }
+if(isset($_GET['id'])){
+    $sql="SELECT * FROM `exams` WHERE id='$_GET[id]'";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+      $row = $result->fetch_assoc();   
+    } 
+  }
+$noofstudent=0;
+$countstudent="SELECT COUNT(id)FROM `students`";
+$CountStudentResult=mysqli_query($conn,$countstudent);
+if($CountStudentResult->num_rows>0){
+    $studentdata=$CountStudentResult->fetch_assoc();
+    $noofstudent=$studentdata['COUNT(id)'];
+} 
+
+$NoAttenStudents=0;
+$Query="SELECT COUNT(id) FROM `student_has_exam` WHERE Exam_id='$_GET[id]'";
+$QueryResult=mysqli_query($conn,$Query);
+if($QueryResult->num_rows>0){
+    $AttenData=$QueryResult->fetch_assoc();
+    $NoAttenStudents=$AttenData['COUNT(id)'];
+}
  ?>
+  <?php
+
+$sql="SELECT * FROM `exams` LIMIT 1";
+$result=mysqli_query($conn,$sql);
+$row=mysqli_fetch_assoc($result);
+$durantion=$row['duration'];
+
+date_default_timezone_set('Asia/Kolkata');
+$_SESSION['duration']=$durantion;
+$_SESSION['start_time']=$row['dateandtime'];
+$end_time=date(' Y-m-d H:i:s',strtotime('+'.$_SESSION["duration"].'minute',strtotime($_SESSION["start_time"])));
+
+$_SESSION["end_time"]=$end_time;
+
+?>
+
+<script>
+var countDownDate = <?php 
+echo strtotime($_SESSION["end_time"]) ?> * 1000;
+var now = <?php echo time() ?> * 1000;
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+now = now + 1000;
+// Find the distance between now an the count down date
+var distance = countDownDate - now;
+// Time calculations for days, hours, minutes and seconds
+var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+// Output the result in an element with id="demo"
+document.getElementById("time").innerHTML ="Timeleft :"+" "+ days + "d " + hours + "h " +
+minutes + "m " + seconds + "s ";
+// If the count down is over, write some text 
+if (distance < 0) {
+clearInterval(x);
+ document.getElementById("time").innerHTML = "TIME END";
+}
+    
+}, 1000);
+</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,41 +105,54 @@ if (!isset($_SESSION['teacher_login_id']))
             <div class="side2 border">
                 <div class="examname">
                     <a href="Teacher_home.php"><i class="fas fa-chevron-left fa-2x"></i></a>
-                    <h3 class="exam">Exam Name</h3>
+                    <h3 class="exam"><?php echo $row['name'];?></h3>
                 </div>
                 <div class="w-90 d-flex flex-row main">   
                     <div class="w-50 d-flex flex-column">
                         <div class="w-100 p-3 border Exam_Completed">
                             <h3>Exam Completed</h3>
                                 <div class="align-items-center row d-flex flex-column  ">
-                                    <h1 class="Student">15/20</h2>
-                                    <label for="">Time Left : 00:06 mins</label>
+                                    <h1 class="Student"><?php echo $NoAttenStudents ;?>/<?php echo $noofstudent; ?></h2>
+                                    <label for="" id="time"></label>
                                 </div>
                         </div>
                         <div class="w-100 border Exam_time">
                             <div class=" row d-flex flex-column time">
-                                <h4>Exam started Time</h4>
-                                <h4 >Exam ending Time</h4>    
+                                <?php
+                                $minutes_to_add = $_SESSION['duration'];
+
+                                $time = new DateTime($_SESSION['start_time']);
+                                $time->add(new DateInterval('PT' . $minutes_to_add . 'M'));
+                                
+                                $stamp = $time->format('Y-m-d H:i:s');
+                                
+
+
+                                ?>  
+                                <h4>Exam started Time: <?php echo   $_SESSION['start_time']; ?></h4>
+                                <h4 >Exam ending Time:  <?php echo  $stamp;  ?></h4>    
                              </div>
                         </div>
                     </div>
                     <div class="col-sm-5 border Student_atten p-2 ml-auto" id="jar">
                         <h3>Attending Student List</h3>
-                        <div class="p-2 group shadow-sm list content">Student 1<span class="Correct">Completed</span></div>
-                        <div class="p-2 group shadow-sm list content">Student 2<span class="Correct">Completed</span></div>
-                        <div class="p-2 group shadow-sm list content">Student 3<span class="Correct">Completed</span></div>
-                        <div class="p-2 group shadow-sm list content">Student 4<span class="Correct">Completed</span></div>
-                        <div class="p-2 group shadow-sm list content">Student 5<span class="Correct">Completed</span></div>
-                        <div class="p-2 group shadow-sm list content">Student 6<span class="Correct">Completed</span></div>
-                        <div class="p-2 group shadow-sm list content">Student 7<span class="Correct">Completed</span></div>
-                        <div class="p-2 group shadow-sm list content">Student 8<span class="Correct">Completed</span></div>
-                        <div class="p-2 group shadow-sm list content">Student 9<span class="Correct">Completed</span></div>
-                        <div class="p-2 group shadow-sm list content">Student 10<span class="Correct">Completed</span></div>
-                        <div class="p-2 group shadow-sm list content">Student 11<span class="Correct">Completed</span></div>
-                        <div class="p-2 group shadow-sm list content">Student 12<span class="Correct">Completed</span></div>
-                        <div class="p-2 group shadow-sm list content">Student 13<span class="Correct">Completed</span></div>
-                        <div class="p-2 group shadow-sm list content">Student 14<span class="Correct">Completed</span></div>
-                        <div class="p-2 group shadow-sm list content">Student 15<span class="Correct">Completed</span></div>
+                      <?php
+                         require '../database_connection.php'; 
+                         $sql="SELECT * FROM `students` LEFT JOIN student_has_exam on students.user_login_id=student_has_exam.student_id WHERE student_has_exam.Exam_id='$_GET[id]' or student_has_exam.Exam_id is null";    
+                         $sqlresult=$conn->query($sql);
+                         if($sqlresult->num_rows > 0) 
+                         {
+                            $i=1;
+                             while($studentdata =$sqlresult->fetch_assoc()) 
+                             {
+                                if($studentdata['Examstatus']=="attended"){
+                                    echo'<div class="p-2 group shadow-sm list content">'.$studentdata['name'].'<span class="Correct">Completed</span></div>';
+                                }else{
+                                    echo'<div class="p-2 group shadow-sm list content">'.$studentdata['name'].'</div>';
+                                }
+                             }  
+                         }
+                      ?>
                     </div>
                     
                 </div>
@@ -68,7 +160,7 @@ if (!isset($_SESSION['teacher_login_id']))
                     <ul class="pagination justify-content-center pagination-sm">
                     </ul>
                 </nav>
-                <button type="button" class="btn btn-danger btnexam">END Exam</button>
+               <?php echo'<a class="btn btn-danger btnexam" href="monitorexam.php?delete='.$_GET['id'].'">END Exam</a>';?>
             </div> 
 </div>
 </body>

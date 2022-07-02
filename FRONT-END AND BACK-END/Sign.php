@@ -3,6 +3,7 @@ session_start();
 require 'database_connection.php';
 if(isset($_POST['Sign'])){
     $email=$_POST['email'];
+    
     $password=$_POST['password'];
 
     $sql="SELECT * FROM users_login WHERE email='$email'";

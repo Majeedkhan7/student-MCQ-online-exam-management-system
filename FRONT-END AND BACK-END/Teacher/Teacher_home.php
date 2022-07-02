@@ -33,7 +33,6 @@ if (!isset($_SESSION['teacher_login_id']))
                     <a href="Teacher_home.php" class="btn btn-warning ml-3">Reset</a>
                     <a href="single_Exam.php" class="btn btn-success ml-3">New Exam</a>
 
-                
               </form>  
                    
                     <a href="../logout.php" class="btn btn-info  p-2 ml-auto">Logout</a>
@@ -68,7 +67,6 @@ if (!isset($_SESSION['teacher_login_id']))
                        }else{
                         echo"<td>".'<a href="monitorexam.php?id=' . $row['id'] . '">'.$row['status']."</td>";
                        }
-                     
                        echo"</tr>";
                       }
                   }
