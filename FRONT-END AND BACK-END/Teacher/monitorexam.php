@@ -12,7 +12,7 @@ if(isset($_GET['delete'])){
     $exid=$_GET['delete'];
     $deleteanswers="DELETE FROM `answers` WHERE exam_id='$exid'";
     $deleteexam="DELETE FROM `exams` WHERE id='$exid'";
-    $deletequestion="DELETE question,options FROM question LEFT JOIN options ON question.id=options.questionId WHERE question.examid='$exid'' or question.examid is null";
+    $deletequestion="DELETE question,options FROM question LEFT JOIN options ON question.id=options.questionId WHERE question.examid='$exid' or question.examid is null";
     $deleteresult="DELETE FROM `student_has_exam` WHERE Exam_id='$exid'";
     if (($conn->query($deleteanswers) === TRUE) && ($conn->query($deleteexam) === TRUE) && ($conn->query($deletequestion) === TRUE) && ($conn->query($deleteresult) === TRUE) ){
     
@@ -46,7 +46,7 @@ if($QueryResult->num_rows>0){
  ?>
   <?php
 
-$sql="SELECT * FROM `exams` LIMIT 1";
+$sql="SELECT * FROM `exams`  WHERE id='$_GET[id]'";
 $result=mysqli_query($conn,$sql);
 $row=mysqli_fetch_assoc($result);
 $durantion=$row['duration'];

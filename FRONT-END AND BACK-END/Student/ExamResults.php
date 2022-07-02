@@ -97,7 +97,7 @@ if(isset($_GET['exid'])){
                         <div class="d-flex flex-column" id="jar">
 
                                 <?php
-                                $sql1="SELECT * FROM question LEFT JOIN answers ON question.id=answers.question_id WHERE (answers.student_id='$_SESSION[student_login_id]' or answers.student_id is null) AND answers.exam_id='$_SESSION[examid]' or answers.exam_id is null";
+                                $sql1="SELECT * FROM question LEFT JOIN answers ON question.id=answers.question_id WHERE (answers.student_id='$_SESSION[student_login_id]' or answers.student_id is null) AND question.examid='$_SESSION[examid]'";
                                 $sql1result=$conn->query($sql1);
                                 if ($sql1result->num_rows > 0) 
                                 {

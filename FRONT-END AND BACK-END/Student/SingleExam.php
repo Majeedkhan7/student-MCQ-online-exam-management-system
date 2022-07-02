@@ -40,7 +40,7 @@ if ($getansresult ->num_rows > 0) {
  ?>
  <?php
 
-$sql="SELECT * FROM `exams` LIMIT 1";
+$sql="SELECT * FROM `exams` WHERE id='$_GET[id]'";
 $result=mysqli_query($conn,$sql);
 $row=mysqli_fetch_assoc($result);
 $durantion=$row['duration'];
