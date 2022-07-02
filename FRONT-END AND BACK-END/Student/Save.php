@@ -12,9 +12,6 @@ if (!isset($_SESSION["examid"]))
   exit();
 }
 
-
-
-
 $sql="SELECT * FROM `student_has_exam` WHERE  student_id='$_SESSION[student_login_id]' AND Exam_id='$_SESSION[examid]'";
 $result=mysqli_query($conn,$sql);
 if($result->num_rows > 0)

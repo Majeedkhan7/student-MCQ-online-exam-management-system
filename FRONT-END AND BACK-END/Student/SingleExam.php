@@ -87,18 +87,22 @@ $_SESSION["end_time"]=$end_time;
         </div>
 </body>
 </html>
-
 <script>  
+//get selected saved answers from Datbase
 var abc=<?php echo json_encode($getAnswer);?>;
+//create array in javaScript
 const main=[];
 const quesno=[];
 
+
  $(document).ready(function(){  
+     //call function for load the question and answers
       load_data();  
+      //load question and Answers using ajax
       function load_data(page)  
       {  
            $.ajax({  
-                url:"pagination.php",  
+                url:'pagination.php',  
                 method:"POST",  
                 data:{page:page},  
                 success:function(data){  
@@ -107,12 +111,14 @@ const quesno=[];
                 }  
            })  
         
-       
       }  
+
+      //question no Pargination
       $(document).on('click', '.pagination_link', function(){  
            var page = $(this).attr("id");  
            load_data(page);  
       });
+      //next button pargination
       $(document).on('click', '.next', function(){  
            var totall = $(this).attr("id");  
            var page = parseInt($(this).attr("page")); 
@@ -122,8 +128,8 @@ const quesno=[];
            load_data(page);  
           
       });
-
-      $(document).on('click', '.Perviou', function(){  
+      //Pervious button pargination
+      $(document).on('click', '.Pervious', function(){  
            var totall = $(this).attr("id");  
            var page = parseInt($(this).attr("page")); 
            if(page>1){
@@ -133,7 +139,7 @@ const quesno=[];
           
       });
       
-      
+      // call the function to change the answers
       $(document).on('change', '.radio1', function(){  
            var ans = $(this).data("value");  
            var questionNo= $(this).data("id");
@@ -143,38 +149,41 @@ const quesno=[];
       });  
  });  
 
-function ok(){
+
+ //create ok function
+function ok()
+{
   const nodeList = document.querySelectorAll("[name='choice']");
-  for(var j=0; j<abc.length; j++){
-      
-      for(var i=0; i<nodeList.length; i++){
-
-           if(abc[j]==nodeList[i].value){
-                nodeList[i].checked=true;
-           }
+  for(var j=0; j<abc.length; j++)
+  {
+      for(var i=0; i<nodeList.length; i++)
+      {
+        if(abc[j]==nodeList[i].value)
+        {
+          nodeList[i].checked=true;
+        }
       }
-}
+   }
 
-    for(var j=0; j<main.length; j++){
-      
-          for(var i=0; i<nodeList.length; i++){
-
-               if(main[j]==nodeList[i].value){
+    for(var j=0; j<main.length; j++)
+    {
+      for(var i=0; i<nodeList.length; i++)
+      {
+               if(main[j]==nodeList[i].value)
+               {
                     nodeList[i].checked=true;
                }
-          }
+      }
+     }
 }
 
 
-}
-
-
-
+//create function for save Exam data 
 function save(){
      const nodeList = document.querySelectorAll("[name='choice']");
 
 $.ajax({  
-           url:"new.php",  
+           url:'Save.php',  
            method:"POST", 
            data:{id:main,name:quesno},
            type:'JSON', 
@@ -186,11 +195,12 @@ $.ajax({
 
 }
 
+//Create function for complete the Exam
 function complete(){
 var exid=<?php echo json_encode( $_SESSION['examid']);?>
 
 $.ajax({  
-           url:"complete.php",  
+           url:'complete.php',  
            method:"POST", 
            data:{id:main,name:quesno},
            type:'JSON', 
@@ -202,10 +212,11 @@ $.ajax({
       })  
 
 }
- </script>  
-<script>
-var countDownDate = <?php 
-echo strtotime($_SESSION["end_time"]) ?> * 1000;
+
+
+//======  This for Time Count ========
+
+var countDownDate = <?php echo strtotime($_SESSION["end_time"]) ?> * 1000;
 var now = <?php echo time() ?> * 1000;
 
 // Update the count down every 1 second

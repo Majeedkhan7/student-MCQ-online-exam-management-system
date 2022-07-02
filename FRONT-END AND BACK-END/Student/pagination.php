@@ -51,7 +51,7 @@
  $total_records = mysqli_num_rows($page_result);  
  $total_pages = ceil($total_records/$record_per_page); 
  $output.='<div class="d-flex flex-row justify-content-between w-25">
- <button type="button" class="btn btn-secondary Perviou" id='.$total_pages.' page='.$page.'>Pervious</button>
+ <button type="button" class="btn btn-secondary Pervious" id='.$total_pages.' page='.$page.'>Pervious</button>
  <label for="" id="currentquestion"> Question '.$page.'</label>
  <button type="button" class="btn btn-secondary next" id='.$total_pages.' page='.$page.'>Next</button>
 </div>';
