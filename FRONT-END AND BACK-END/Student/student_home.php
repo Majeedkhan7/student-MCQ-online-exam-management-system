@@ -32,7 +32,7 @@ if (!isset($_SESSION['student_login_id']))
                     <button type="submit" class="btn btn-primary btnsearch" name="search">Search</button>
                     <a href="student_home.php" class="btn btn-warning ml-3">Reset</a>
               </form>  
-              <a href="../logout.php" class="btn btn-info  p-2 ml-auto">Logout</a>
+              <a href="../logout.php" class="btn btn-info btn  p-2 ml-auto" style="width: 50px;"><i class="fas fa-sign-out-alt fa-lg"></i></a>
                 </div>
                 <table class="table table-bordered">
                   <thead>
@@ -77,4 +77,4 @@ if (!isset($_SESSION['student_login_id']))
     </div>
 </body>
 </html>
-<script src="assets/js/script.js"></script>
+<script src="../assets/js/script.js"></script>

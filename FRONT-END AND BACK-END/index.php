@@ -28,9 +28,6 @@ if(isset($_SESSION['student_login_id']))
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js" integrity="sha512-IZ95TbsPTDl3eT5GwqTJH/14xZ2feLEGJRbII6bRKtE/HC6x3N4cHye7yyikadgAsuiddCY2+6gMntpVHL1gHw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
-
-  
-
 <div class="shadow login-form border bg-white rounded">
     <?php if (isset($_GET['error'])) { ?>
     <div class="alert alert-danger alert-dismissible">

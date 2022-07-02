@@ -29,16 +29,16 @@ if (!isset($_SESSION['teacher_login_id']))
                 </div>
                 <div class="w-90 d-flex flex-row  main">   
                     <div class="col-sm-5 border shadow bg-white rounded  kh">
-                      <h4 class='text-center mt-3'>Attending and Results progress though Time </h4>
-                      
+                    <!----  <h4 class='text-center mt-3'>Attending and Results progress though Time </h4>-->
+                        <div>  
                         <canvas id="myChart"></canvas>
-                      
+                        </div>
                     </div>
                 
                     <div class="col-sm-5 border shadow bg-white rounded ">
                       <h4 class='text-center mt-3'>Average Result Grade Percentages</h4>
                       <div>
-                        <canvas id="myChart1"></canvas>
+                    <!--<canvas id="myChart1"></canvas>-->
                       </div>
                     </div> 
                 </div>
