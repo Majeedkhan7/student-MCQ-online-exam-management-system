@@ -10,8 +10,8 @@ if (!isset($_SESSION['teacher_login_id']))
   exit();
 }
 //get this teacher create Exam
-$query = $conn->query("SELECT * FROM `exams` WHERE teacherid='$_SESSION[teacher_login_id]' AND status='published'");
-
+$query = $conn->query("SELECT * FROM `exams` WHERE teacherid='$_SESSION[teacher_login_id]' AND status='published' ORDER BY id ASC");
+$Exam[]=array();
 foreach($query as $data)
 {
 $Exam[] = $data['name'];
@@ -150,13 +150,13 @@ foreach($query1 as $data)
     labels: labels,
     datasets: [
         {
-      label: 'Totall Students',
+      label: 'No of attended students',
       backgroundColor: 'rgb(255, 99, 132)',
       borderColor: 'rgb(255, 99, 132)',
       data: [0, 10, 5, 2, 20, 30, 45],
     },
     {
-      label: 'My First dataset',
+      label: 'No oF Passed Student',
       backgroundColor: 'rgb(0,0,255)',
       borderColor: 'rgb(0,0,255)',
       data: [10,6 ,7, 2, 15, 50, 90],

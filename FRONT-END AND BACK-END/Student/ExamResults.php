@@ -64,15 +64,10 @@ if(isset($_GET['exid'])){
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 <link rel="stylesheet" href="../assets/css/student/examresult.css">
-<style>
-    .side2 {
-        height:571px;
-    }
-</style>
 <body>
   	<div>
         <div class="side"></div>
-            <div class="side2 border d-flex flex-column" >
+            <div class="side2 border d-flex flex-column"  style="height:713.2px;">
                 <div class="mt-4 ml-3 d-flex flex-row">
                     <a href="student_home.php" class="mt-0"><i class="fas fa-chevron-left fa-2x"></i></a>
                     <h3 class="ml-3 mt-0" ><?php echo $_SESSION['name']?></h3>
