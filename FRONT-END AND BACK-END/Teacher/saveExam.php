@@ -58,6 +58,41 @@ if(isset($_POST['save']))
     
          }
       }
+      else{
+        $question=$_POST['question'];
+            $ansers=$_POST['ansers'];
+            $noques=count($question);
+            $canser=$_POST['correctans'];
+      
+           for($i=0;$i<$noques;$i++)
+           {
+              $qusno=$i+1;
+              $sql="INSERT INTO `question`(`questionNo`, `Question`, `examid`)
+              VALUES ('$qusno','$question[$i]','$_POST[examid]')";
+              if (mysqli_query($conn, $sql)) 
+              {
+                $ques_id = mysqli_insert_id($conn);
+                $name=(explode(",",$ansers[$i])); 
+                foreach ( $name as $value) 
+                {        
+                  if($value==$canser[$i])
+                  {
+                    $c=1;
+                  }
+                  else
+                  {
+                    $c=0;
+                  }
+                  $sql="INSERT INTO `options`(`optionvalue`, `questionId`, `iscoorect`)
+                  VALUES ('$value','$ques_id','$c')";
+                  mysqli_query($conn,$sql);
+                }
+  
+  
+              }
+            }
+      }
+
     }
     $uexam=$_POST['exam'];
     $udatetime=$_POST['datetime'];
@@ -65,9 +100,6 @@ if(isset($_POST['save']))
     $sqlupdate="UPDATE `exams` SET `name`='$uexam',`duration`='$uduration',dateandtime='$udatetime'	 WHERE id='$_POST[examid]' and teacherid='$_SESSION[teacher_login_id]'";
     mysqli_query($conn,$sqlupdate);
     header("Location: single_Exam.php?id=$_POST[examid] & success=successfully updated");
-
-  
-
   }
   else
   {
@@ -174,6 +206,8 @@ if(isset($_POST['publish']))
                VALUES ('$value','$ques_id','$c')";
                 mysqli_query($conn,$sql);
              }
+
+
            }
            else 
            {
@@ -181,6 +215,53 @@ if(isset($_POST['publish']))
            }
     
          }
+      }
+      else{
+        $num=$row['questionNo'];
+        $question=$_POST['question'];
+        $ansers=$_POST['ansers'];
+        $noques=count($question);
+
+        for($i=0;$i<$noques;$i++)
+        {
+           $qusno=$i+1;
+           $sql="INSERT INTO `question`(`questionNo`, `Question`, `examid`)
+           VALUES ('$qusno','$question[$i]','$_POST[examid]')";
+           if (mysqli_query($conn, $sql)) 
+           {
+             $ques_id = mysqli_insert_id($conn);
+             $name=(explode(",",$ansers[$i])); 
+             foreach ( $name as $value) 
+             {        
+               if($value==$canser[$i])
+               {
+                 $c=1;
+               }
+               else
+               {
+                 $c=0;
+               }
+               $sql="INSERT INTO `options`(`optionvalue`, `questionId`, `iscoorect`)
+               VALUES ('$value','$ques_id','$c')";
+               mysqli_query($conn,$sql);
+             }
+            
+             $sql="UPDATE `exams` SET `status`='published' WHERE id='$_POST[examid]'";
+             if($conn->query($sql) === TRUE) 
+             {
+             header("Location: Teacher_home.php");
+             }
+            
+             
+           }
+           else 
+           {
+                echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+           }
+
+         }
+         header("Location: Teacher_home.php");
+        
       }
       
     }

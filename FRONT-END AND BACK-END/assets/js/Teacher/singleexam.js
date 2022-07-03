@@ -8,7 +8,9 @@
     });
   }
   
-jQuery('#datetimepicker').datetimepicker();
+jQuery('#datetimepicker').datetimepicker({
+  minDate: new Date(),
+});
 
 
 $(function () 
