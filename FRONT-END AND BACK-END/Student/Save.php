@@ -1,17 +1,21 @@
 <?php
+//this all code are use to save the save the Exam anwser
 session_start();
+//include database connection
 require '../database_connection.php';
+//user auth
 if (!isset($_SESSION['student_login_id']))
 {
   header("Location: ../index.php?error=You Need To Login First");
   exit();
 }
+//exam auth
 if (!isset($_SESSION["examid"]))
 {
   header("Location: ../index.php?error=You Need To Login First");
   exit();
 }
-
+//save the already saved exam
 $sql="SELECT * FROM `student_has_exam` WHERE  student_id='$_SESSION[student_login_id]' AND Exam_id='$_SESSION[examid]'";
 $result=mysqli_query($conn,$sql);
 if($result->num_rows > 0)
@@ -87,7 +91,9 @@ if($result->num_rows > 0)
 
 
 }
-else{
+//save new exam anwsers
+else
+{
   $sqlFisrt="INSERT INTO `student_has_exam`(`student_id`, `Exam_id`, `Examstatus`) 
 VALUES ('$_SESSION[student_login_id]','$_SESSION[examid]','draft')";
 if ($conn->query($sqlFisrt) === TRUE) 

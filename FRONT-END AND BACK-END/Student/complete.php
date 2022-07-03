@@ -1,24 +1,26 @@
 <?php
+//all code are work complete the exam
 session_start();
+//include database connection
 require '../database_connection.php';
+//user auth
 if (!isset($_SESSION['student_login_id']))
 {
   header("Location: ../index.php?error=You Need To Login First");
   exit();
 }
+//Exam auth
 if (!isset($_SESSION["examid"]))
 {
   header("Location: ../index.php?error=You Need To Login First");
   exit();
 }
-
-
-
-
+//get Exam Details Of Student
 $sql="SELECT * FROM `student_has_exam` WHERE  student_id='$_SESSION[student_login_id]' AND Exam_id='$_SESSION[examid]'";
 $result=mysqli_query($conn,$sql);
 if($result->num_rows > 0)
 {   
+  //complete the already saved Exam
   if(isset($_POST['id']) && isset($_POST['name'])){
     $question_an = $_POST['id'];
     $no = $_POST['name'];
@@ -89,9 +91,7 @@ if($result->num_rows > 0)
     }
   
   }
-  
-  
-
+  //calculate the result and save into database
   $noofquestion="SELECT COUNT(id) as noofquestion FROM `question` WHERE examid='$_SESSION[examid]'";
   $noofquestionresult=mysqli_query($conn,$noofquestion);
   $data=$noofquestionresult->fetch_assoc();
@@ -107,14 +107,15 @@ if($result->num_rows > 0)
 
   $updateExamResult="UPDATE `student_has_exam` SET `Examstatus`='attended',`result`='$exam_totall_marks'
    WHERE student_id='$_SESSION[student_login_id]' AND Exam_id='$_SESSION[examid]'";
-if ($conn->query($updateExamResult) === TRUE) {
-    echo "New record created successfully";
-  } else {
+    if ($conn->query($updateExamResult) === TRUE) {
+       echo "New record created successfully";
+    } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
-  }
-
+    }
 }
-else{
+else
+{
+  //complete without saved Exam
   $sqlFisrt="INSERT INTO `student_has_exam`(`student_id`, `Exam_id`, `Examstatus`) 
 VALUES ('$_SESSION[student_login_id]','$_SESSION[examid]','attended')";
 if ($conn->query($sqlFisrt) === TRUE) 
@@ -156,6 +157,7 @@ foreach($c as $qus=>$ans)
         }
     }    
 }
+  //calculate the result and save into database
 $noofquestion="SELECT COUNT(id) as noofquestion FROM `question` WHERE examid='$_SESSION[examid]'";
 $noofquestionresult=mysqli_query($conn,$noofquestion);
 $data=$noofquestionresult->fetch_assoc();
