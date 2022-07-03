@@ -1,6 +1,8 @@
 <?php 
 session_start();
-
+//include database connection
+require '../database_connection.php';
+//teacher auth
 if (!isset($_SESSION['teacher_login_id']))
 {
   header("Location: ../index.php?error=You Need To Login First");
@@ -27,9 +29,10 @@ if (!isset($_SESSION['teacher_login_id']))
                 <div class="title-main">
                     <h3 class="title">Dashboard</h3>
                 </div>
+                
                 <div class="w-90 d-flex flex-row  main">   
                     <div class="col-sm-5 border shadow bg-white rounded  kh">
-                    <!----  <h4 class='text-center mt-3'>Attending and Results progress though Time </h4>-->
+                     <h4 class='text-center mt-3'>Attending and Results progress though Time </h4>
                         <div>  
                         <canvas id="myChart"></canvas>
                         </div>
@@ -38,7 +41,7 @@ if (!isset($_SESSION['teacher_login_id']))
                     <div class="col-sm-5 border shadow bg-white rounded ">
                       <h4 class='text-center mt-3'>Average Result Grade Percentages</h4>
                       <div>
-                    <!--<canvas id="myChart1"></canvas>-->
+                  <!---<canvas id="myChart1"></canvas>--->
                       </div>
                     </div> 
                 </div>

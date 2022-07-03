@@ -1,12 +1,14 @@
 <?php
 session_start();
-
+//include database connection
+require '../database_connection.php';
+// user auth
 if (!isset($_SESSION['teacher_login_id']))
 {
   header("Location: ../index.php?error=You Need To Login First");
   exit();
 }
-    require '../database_connection.php';
+//get if already have exam 
   if(isset($_GET['id'])){
     $sql="SELECT * FROM `exams` WHERE id='$_GET[id]'";
     $result = $conn->query($sql);
@@ -14,6 +16,8 @@ if (!isset($_SESSION['teacher_login_id']))
       $row = $result->fetch_assoc();   
     } 
   }
+
+  //delete question
   if(isset($_GET['delete'])){
 
     $id=$_GET['delete'];
@@ -38,7 +42,7 @@ if (!isset($_SESSION['teacher_login_id']))
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
-<link rel="stylesheet" href="../assets/css/single_exam.css">
+<link rel="stylesheet" href="../assets/css/Teacher/single_exam.css">
 <link rel="stylesheet" type="text/css" href="../assets/css/jquery.datetimepicker.css" >
 <script src="../assets/js/jquery.js"></script>
 <script src="../assets/js/jquery.datetimepicker.full.min.js"></script>
@@ -92,10 +96,10 @@ if (!isset($_SESSION['teacher_login_id']))
                     <br>
                     <label for="a"> Answers list</label>
                     <div class="d-flex flex-column mb-3">
-                      <div class="p-2 group d-flex flex-row"><input name="main" value="1" class="radio1" type="radio"><span class="Correct">correct</span><input type="text" class="form-control a" id="answer" name="ans1" placeholder="Answer 1"></div>
-                      <div class="p-2 group d-flex flex-row"><input name="main" value="2"  class="radio1" type="radio"><span class="Correct">correct</span><input type="text" class="form-control a" id="answer1"  name="ans2" placeholder="Answer 2" ></div>
-                      <div class="p-2 group d-flex flex-row"><input name="main" value="3"  class="radio1" type="radio"><span class="Correct">correct</span><input type="text" class="form-control a" id="answer2"  name ="ans3"placeholder="Answer 3" ></div>
-                      <div class="p-2 group d-flex flex-row"><input name="main" value="4"  class="radio1" type="radio"><span class="Correct">correct</span><input type="text" class="form-control a" id="answer3"  name="ans4"placeholder="Answer 4"></div>
+                      <div class="p-2 group d-flex flex-row"><input name="main" value="1" class="radio1 mr-2" type="radio"><span class="Correct">correct</span><input type="text" class="form-control a" id="answer" name="ans1" placeholder="Answer 1"></div>
+                      <div class="p-2 group d-flex flex-row"><input name="main" value="2"  class="radio1 mr-2" type="radio"><span class="Correct">correct</span><input type="text" class="form-control a" id="answer1"  name="ans2" placeholder="Answer 2" ></div>
+                      <div class="p-2 group d-flex flex-row"><input name="main" value="3"  class="radio1 mr-2" type="radio"><span class="Correct">correct</span><input type="text" class="form-control a" id="answer2"  name ="ans3"placeholder="Answer 3" ></div>
+                      <div class="p-2 group d-flex flex-row"><input name="main" value="4"  class="radio1 mr-2" type="radio"><span class="Correct">correct</span><input type="text" class="form-control a" id="answer3"  name="ans4"placeholder="Answer 4"></div>
                     </div>
                 </div>
           <!-- Modal footer -->
@@ -188,4 +192,4 @@ if (!isset($_SESSION['teacher_login_id']))
     </div>
 </body>
 </html>
-<script src="../assets/js/singleexam.js"></script>
+<script src="../assets/js/Teacher/singleexam.js"></script>

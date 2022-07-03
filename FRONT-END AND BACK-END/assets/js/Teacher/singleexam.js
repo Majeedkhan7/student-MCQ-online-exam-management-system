@@ -1,20 +1,18 @@
-//$("i").focus(function() {
- //$(".Correct").css("display", "none");
-//$(this).next("span").css("display", "inline");
-///});
-if (document.querySelector('input[name="radio"]')) {
-  document.querySelectorAll('input[name="radio"]').forEach((elem) => {
-    elem.addEventListener("change", function(event) {
-      $(".Correct").css("display", "none");
-      $(this).next("span").css("display", "block");
-    });
-  });
-}
 
+  if (document.querySelector('input[name="main"]')) {
+    document.querySelectorAll('input[name="main"]').forEach((elem) => {
+      elem.addEventListener("change", function(event) {
+        $(".Correct").css("display", "none");
+        $(this).next("span").css("display", "block");
+      });
+    });
+  }
+  
 jQuery('#datetimepicker').datetimepicker();
 
 
-$(function () {
+$(function () 
+{
   $('.btn-add').click(function(){
     var ques=document.sample.question.value;
     var ans1=document.sample.ans1.value;
@@ -86,9 +84,10 @@ console.log(correctans);
     document.getElementById('answer3').value='';
  
     $("[type=radio]").prop("checked",false);
-    
+    $(".Correct").css("display", "none");
       
   })
+
 })
 
 $("#tbl").on('click', '.btnDelete', function () {

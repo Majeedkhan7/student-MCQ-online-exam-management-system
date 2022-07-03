@@ -1,6 +1,7 @@
 <?php 
 session_start();
 
+//teacher auth
 if (!isset($_SESSION['teacher_login_id']))
 {
   header("Location: ../index.php?error=You Need To Login First");
@@ -18,7 +19,7 @@ if (!isset($_SESSION['teacher_login_id']))
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
-<link rel="stylesheet" href="../assets/css/teachers_home.css">
+<link rel="stylesheet" href="../assets/css/Teacher/teachers_home.css">
 </head>
 <body>
     <div style="height:100%;">
@@ -35,7 +36,7 @@ if (!isset($_SESSION['teacher_login_id']))
 
               </form>  
                    
-                    <a href="../logout.php" class="btn btn-info  p-2 ml-auto">Logout</a>
+              <a href="../logout.php" class="btn btn-info btn  p-2 ml-auto" style="width: 50px;"><i class="fas fa-sign-out-alt fa-lg"></i></a>
                       
                 </div>
                 <table class="table table-bordered">
@@ -86,4 +87,4 @@ if (!isset($_SESSION['teacher_login_id']))
    
 </body>
 </html>
-<script src="../assets/js/script.js"></script>
+<script src="../assets/js/Teacher/TeacherHomePargination.js"></script>

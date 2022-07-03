@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 02, 2022 at 08:07 AM
+-- Generation Time: Jul 02, 2022 at 10:15 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -218,8 +218,8 @@ CREATE TABLE `users_login` (
 --
 
 INSERT INTO `users_login` (`id`, `email`, `password`, `usertype`) VALUES
-(1, 'student@gmail.com', '123456789', 'Student'),
-(2, 'Teacher@gmail.com', '123456789', 'Teacher');
+(1, 'student@gmail.com', '25f9e794323b453885f5181f1b624d0b', 'Student'),
+(2, 'Teacher@gmail.com', '25f9e794323b453885f5181f1b624d0b', 'Teacher');
 
 --
 -- Indexes for dumped tables
