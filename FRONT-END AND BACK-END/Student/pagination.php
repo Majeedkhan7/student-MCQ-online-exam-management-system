@@ -31,6 +31,7 @@
  while($row = mysqli_fetch_array($result))  
  { 
     $output.='<label for="">Q.'.$row['questionNo'].')'.$row['Question'] .'</label>';
+    echo '<input type="hidden" id="hiddenNo" name="hidenQno" value="'.$row['questionNo'].'">';
     $qustionsoption="SELECT * FROM `options` WHERE questionId='$row[id]'";
     $optionresult =  $connect->query( $qustionsoption);
     if ($optionresult ->num_rows > 0) 

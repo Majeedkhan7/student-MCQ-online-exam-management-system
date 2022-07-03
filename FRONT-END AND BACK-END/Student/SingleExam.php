@@ -28,7 +28,7 @@ if((isset($_GET['status'])))
 }
 
 //get saved answer From Database
-$getans="SELECT options.optionvalue as value FROM `answers` INNER JOIN options ON answers.option_id=options.id WHERE answers.exam_id='$_SESSION[examid]' AND answers.student_id='$_SESSION[student_login_id]'";
+$getans="SELECT question.questionNo, options.optionvalue FROM answers JOIN options ON answers.option_id = options.id JOIN question ON answers.question_id = question.id WHERE answers.exam_id= $_SESSION[examid] AND answers.student_id='$_SESSION[student_login_id]'";
 //crate php array for save answer(database)
 $getAnswer=array();
 $getansresult = $conn->query($getans);
@@ -36,7 +36,8 @@ $getansresult = $conn->query($getans);
 if ($getansresult ->num_rows > 0) {
    // output data of each row
    while($ansdata = $getansresult ->fetch_assoc()) {
-   array_push($getAnswer,$ansdata['value']);
+     $no=$ansdata['questionNo'];
+     $getAnswer[$no]=$ansdata['optionvalue'];
    }
 }
  ?>
@@ -93,6 +94,7 @@ var abc=<?php echo json_encode($getAnswer);?>;
 //create array in javaScript
 const main=[];
 const quesno=[];
+const selectcheck=[];
 
 
  $(document).ready(function(){  
@@ -145,6 +147,7 @@ const quesno=[];
            var questionNo= $(this).data("id");
           main.push(ans);
           quesno.push(questionNo)
+          selectcheck[questionNo]=ans
            ok(); 
       });  
  });  
@@ -154,27 +157,28 @@ const quesno=[];
 function ok()
 {
   const nodeList = document.querySelectorAll("[name='choice']");
-  for(var j=0; j<abc.length; j++)
-  {
+  const  x = document.getElementById("hiddenNo").value;
+  console.log(selectcheck)
+ 
       for(var i=0; i<nodeList.length; i++)
       {
-        if(abc[j]==nodeList[i].value)
+        if(abc[x]==nodeList[i].value)
         {
           nodeList[i].checked=true;
         }
       }
-   }
+   
 
-    for(var j=0; j<main.length; j++)
-    {
-      for(var i=0; i<nodeList.length; i++)
+ 
+     for(var i=0; i<nodeList.length; i++)
       {
-               if(main[j]==nodeList[i].value)
+               if(selectcheck[x]==nodeList[i].value)
                {
                     nodeList[i].checked=true;
                }
       }
-     }
+
+     
 }
 
 
