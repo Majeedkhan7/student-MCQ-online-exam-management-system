@@ -62,8 +62,7 @@ if(isset($_POST['save']))
     $uexam=$_POST['exam'];
     $udatetime=$_POST['datetime'];
     $uduration=$_POST['duration'];
-    echo $uexam.$udatetime.$uduration;
-    $sqlupdate="UPDATE `exams` SET `name`='$uexam',`duration`='$uduration',dateandtime='$udatetime'	 WHERE id='1' and teacherid='2'";
+    $sqlupdate="UPDATE `exams` SET `name`='$uexam',`duration`='$uduration',dateandtime='$udatetime'	 WHERE id='$_POST[examid]' and teacherid='$_SESSION[teacher_login_id]'";
     mysqli_query($conn,$sqlupdate);
     header("Location: single_Exam.php?id=$_POST[examid] & success=successfully updated");
 
@@ -73,22 +72,26 @@ if(isset($_POST['save']))
   else
   {
     //save NEw Exam Deails
-    if($_POST['question']==''){
-      header("Location: single_Exam.php?error=Please add Question");
-    }
+   
       $exam=$_POST['exam'];
       $datetime=$_POST['datetime'];
       $duration=$_POST['duration'];
-      $question=$_POST['question'];
-      $ansers=$_POST['ansers'];
-      $noques=count($question);
-  
-      $canser=$_POST['correctans'];
       $sql="INSERT INTO `exams`(`name`, `dateandtime`, `duration`, `teacherid`, `status`)
       VALUES ('$exam','$datetime','$duration','$_SESSION[teacher_login_id]','draft')";
+
+      
       if(mysqli_query($conn, $sql)) 
       {
-            $exam_id = mysqli_insert_id($conn);
+        $exam_id = mysqli_insert_id($conn);
+        if($_POST['question']==''){
+          header("Location: single_Exam.php?id=$exam_id & success=successfully exam created");
+        }
+          
+            $question=$_POST['question'];
+            $ansers=$_POST['ansers'];
+            $noques=count($question);
+            $canser=$_POST['correctans'];
+      
            for($i=0;$i<$noques;$i++)
            {
               $qusno=$i+1;
@@ -169,7 +172,7 @@ if(isset($_POST['publish']))
                }
                $sql="INSERT INTO `options`(`optionvalue`, `questionId`, `iscoorect`)
                VALUES ('$value','$ques_id','$c')";
-               mysqli_query($conn,$sql);
+                mysqli_query($conn,$sql);
              }
            }
            else 
@@ -179,13 +182,24 @@ if(isset($_POST['publish']))
     
          }
       }
+      
     }
-    $sql="UPDATE `exams` SET `status`='published' WHERE id='$_POST[examid]'";
-    if ($conn->query($sql) === TRUE) 
-    {
+    else{
+      $sql="SELECT * FROM `question` WHERE examid='$_POST[examid]'";
+      $result=mysqli_query($conn,$sql);
+      if($result->num_rows > 0)
+      {
+        $sql="UPDATE `exams` SET `status`='published' WHERE id='$_POST[examid]'";
+      if($conn->query($sql) === TRUE) 
+      {
       header("Location: Teacher_home.php");
+      }
+      }else{
+        header("Location: single_Exam.php?error=Please add Question & id=$_POST[examid]");
+      }
+      
     }
-    
+  
   }
 else{
     if($_POST['question']==''){

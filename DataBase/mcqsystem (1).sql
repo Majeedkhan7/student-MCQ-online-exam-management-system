@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 02, 2022 at 10:15 PM
+-- Generation Time: Jul 03, 2022 at 07:35 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -58,7 +58,7 @@ CREATE TABLE `exams` (
 
 INSERT INTO `exams` (`id`, `name`, `dateandtime`, `duration`, `teacherid`, `status`, `updatedate`) VALUES
 (1, 'php', '2022-07-11 09:00:00', '45', 2, 'published', '2022-07-02 05:54:06'),
-(2, 'JavaScript', '2022-07-07 09:00:00', '45', 2, 'published', '2022-07-02 06:01:07'),
+(2, 'JavaScript', '2022-07-07 09:00:00', '45', 2, 'published', '2022-07-03 11:35:43'),
 (3, 'CSS', '2022-07-08 01:00:00', '45', 2, 'draft', '2022-07-02 06:06:04');
 
 -- --------------------------------------------------------
@@ -163,7 +163,9 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `name`, `address`, `phoneno`, `user_login_id`) VALUES
-(2, 'Davoli', 'trinco', '0753462584', 1);
+(2, 'Davoli', 'trinco', '0753462584', 1),
+(4, 'student2', 'Colombo', '0261548115', 3),
+(5, 'student3', 'Kandy', '0753462949', 4);
 
 -- --------------------------------------------------------
 
@@ -176,7 +178,7 @@ CREATE TABLE `student_has_exam` (
   `student_id` int(10) NOT NULL,
   `Exam_id` int(10) NOT NULL,
   `Examstatus` varchar(45) NOT NULL,
-  `result` varchar(45) NOT NULL DEFAULT '0'
+  `result` int(45) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -198,7 +200,8 @@ CREATE TABLE `teachers` (
 --
 
 INSERT INTO `teachers` (`id`, `name`, `address`, `phoneno`, `user_login_id`) VALUES
-(1, 'Fuller', 'Colombo', '07156235', 2);
+(1, 'Fuller', 'Colombo', '07156235', 2),
+(2, 'Teacher2', 'Trincomalee', '0753462548', 5);
 
 -- --------------------------------------------------------
 
@@ -219,7 +222,10 @@ CREATE TABLE `users_login` (
 
 INSERT INTO `users_login` (`id`, `email`, `password`, `usertype`) VALUES
 (1, 'student@gmail.com', '25f9e794323b453885f5181f1b624d0b', 'Student'),
-(2, 'Teacher@gmail.com', '25f9e794323b453885f5181f1b624d0b', 'Teacher');
+(2, 'Teacher@gmail.com', '25f9e794323b453885f5181f1b624d0b', 'Teacher'),
+(3, 'student2@gmail.com', '213ee683360d88249109c2f92789dbc3', 'Student'),
+(4, 'student3@gmail.com', '8e4947690532bc44a8e41e9fb365b76a', 'Student'),
+(5, 'teacher2@gmail.com', '25f9e794323b453885f5181f1b624d0b', 'Teacher');
 
 --
 -- Indexes for dumped tables
@@ -306,7 +312,7 @@ ALTER TABLE `question`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `student_has_exam`
@@ -318,13 +324,13 @@ ALTER TABLE `student_has_exam`
 -- AUTO_INCREMENT for table `teachers`
 --
 ALTER TABLE `teachers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users_login`
 --
 ALTER TABLE `users_login`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
