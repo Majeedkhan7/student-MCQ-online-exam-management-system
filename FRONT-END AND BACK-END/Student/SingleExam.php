@@ -211,12 +211,9 @@ $.ajax({
            success:function(data){  
                window.location.assign("ExamResults.php?exid="+exid);
     
-           }  
-            
+           }         
       })  
-
 }
-
 
 //======  This for Time Count ========
 
@@ -240,7 +237,6 @@ minutes + "m " + seconds + "s ";
 if (distance < 0) {
 clearInterval(x);
 document.getElementById("myCheck").click()
-}
-    
+}    
 }, 1000);
 </script>
