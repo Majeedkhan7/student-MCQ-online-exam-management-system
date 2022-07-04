@@ -1,5 +1,7 @@
 <?php 
 session_start();
+date_default_timezone_set('Asia/Kolkata');
+
 //include database connection
 require '../database_connection.php';
 if (!isset($_SESSION['student_login_id']))
@@ -17,7 +19,21 @@ if(isset($_GET['id'])){
      $_SESSION["examid"] = $_GET['id'];
      $_SESSION["duration"] = $exam['duration'];
      $_SESSION['start_time']=$exam['dateandtime'];
-     
+
+     $date_now=strtotime(date('Y-m-d h:i:sa'));
+     $startdate=strtotime($exam['dateandtime']);
+     $end_time=$end_time=date(' Y-m-d H:i:s',strtotime('+'.$_SESSION["duration"].'minute',strtotime($_SESSION["start_time"])));
+     $end_time=strtotime($end_time);
+
+     if ($date_now > $startdate) {
+          if($date_now > $end_time){
+               header("Location: ./student_home.php?error=Exam Time is End");
+          }
+        
+      }else{
+          header("Location: ./student_home.php?error=Exam start on "."$_SESSION[start_time]");
+      }
+
    }
 //get the Exam Status using GET Method 
 if((isset($_GET['status'])))
@@ -43,7 +59,6 @@ if ($getansresult ->num_rows > 0) {
  ?>
  <?php
 //set the time standard
-date_default_timezone_set('Asia/Kolkata');
 
 //calculate Exam End Time
 $end_time=$end_time=date(' Y-m-d H:i:s',strtotime('+'.$_SESSION["duration"].'minute',strtotime($_SESSION["start_time"])));

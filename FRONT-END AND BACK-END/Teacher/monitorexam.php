@@ -133,15 +133,18 @@ clearInterval(x);
                         <h3>Attending Student List</h3>
                       <?php
                          require '../database_connection.php'; 
-                         $sql="SELECT * FROM `students` LEFT JOIN student_has_exam on students.user_login_id=student_has_exam.student_id WHERE student_has_exam.Exam_id='$_GET[id]' ";    
+                         $sql="SELECT * FROM `students` left JOIN student_has_exam on students.user_login_id=student_has_exam.student_id WHERE  student_has_exam.Exam_id is null or student_has_exam.Exam_id is not null";    
                          $sqlresult=$conn->query($sql);
                          if($sqlresult->num_rows > 0) 
                          {
                             $i=1;
                              while($studentdata =$sqlresult->fetch_assoc()) 
-                             {
-                                if($studentdata['Examstatus']=="attended"){
+                             { 
+
+                                if(($studentdata['Examstatus']=="attended")&&($studentdata['Exam_id']==$_GET['id'])){
                                     echo'<div class="p-2 group shadow-sm list content">'.$studentdata['name'].'<span class="Correct">Completed</span></div>';
+                                }elseif($studentdata['Examstatus']==null){
+                                    echo'<div class="p-2 group shadow-sm list content">'.$studentdata['name'].'</div>';
                                 }
                              }  
                          }
