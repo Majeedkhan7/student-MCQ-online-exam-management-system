@@ -143,7 +143,7 @@ clearInterval(x);
 
                                 if(($studentdata['Examstatus']=="attended")&&($studentdata['Exam_id']==$_GET['id'])){
                                     echo'<div class="p-2 group shadow-sm list content">'.$studentdata['name'].'<span class="Correct">Completed</span></div>';
-                                }elseif($studentdata['Examstatus']==null){
+                                }elseif($studentdata['Examstatus']==null OR $studentdata['Examstatus']=! null ){
                                     echo'<div class="p-2 group shadow-sm list content">'.$studentdata['name'].'</div>';
                                 }
                              }  

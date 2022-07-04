@@ -94,21 +94,28 @@ if(isset($_GET['exid'])){
                         <div class="d-flex flex-column" id="jar">
 
                                 <?php
-                                $sql1="SELECT * FROM question LEFT JOIN answers ON question.id=answers.question_id WHERE (answers.student_id='$_SESSION[student_login_id]' or answers.student_id is null) AND question.examid='$_SESSION[examid]'";
+                                $sql1="SELECT * FROM question where examid=$_SESSION[examid]";
                                 $sql1result=$conn->query($sql1);
                                 if ($sql1result->num_rows > 0) 
                                 {
                                     while($row =$sql1result->fetch_assoc()) 
                                     {
                                     echo'<div class="p-2 group w-75 ml-5 mb-2 mt-2 shadow-sm list content">Question '.$row['questionNo'];
-                                    if($row['question_result']=="Pass"){
-                                    echo '<span class="Correct">Correct</span>';
-                                    }
-                                    elseif($row['question_result']=="fail")
+                                    $sql2="SELECT * FROM mcqsystem.answers where student_id=$_SESSION[student_login_id] and question_id=$row[id] and exam_id='$_SESSION[examid]'";
+                                    $sql2result=$conn->query($sql2);
+                                    if ($sql2result->num_rows > 0) 
                                     {
-                                     echo '<span class="wrong" >Wrong</span>';
-                                    }else{
-                                     echo'<span class="wrong">not answered</span>';
+                                        $row2=$sql2result->fetch_assoc();
+                                        if($row2['question_result']=="Pass")
+                                        {
+                                            echo '<span class="Correct">Correct</span>';
+                                        }else{
+                                            echo '<span class="wrong" >Wrong</span>';
+                                        }
+
+                                    }
+                                    else{
+                                        echo'<span class="wrong">not answered</span>';        
                                     }
                                     echo '</div>';
                                     }
