@@ -22,6 +22,7 @@ if(isset($_POST['save']))
       {
         $row=mysqli_fetch_array($result);
         $num=$row['questionNo'];
+
         $question=$_POST['question'];
         $ansers=$_POST['ansers'];
         $noques=count($question);
@@ -30,8 +31,9 @@ if(isset($_POST['save']))
         {
             $num+=1;
           $canser=$_POST['correctans'];
+          $question3=mysqli_real_escape_string($conn,($question[$i]));
            $sql="INSERT INTO `question`(`questionNo`, `Question`, `examid`)
-           VALUES ('$num','$question[$i]','$_POST[examid]')";
+           VALUES ('$num','$question3','$_POST[examid]')";
            if (mysqli_query($conn, $sql)) 
            {
              $ques_id = mysqli_insert_id($conn);
@@ -46,6 +48,7 @@ if(isset($_POST['save']))
                {
                  $c=0;
                }
+               $value=mysqli_real_escape_string($conn,($value));
                $sql="INSERT INTO `options`(`optionvalue`, `questionId`, `iscoorect`)
                VALUES ('$value','$ques_id','$c')";
                mysqli_query($conn,$sql);
@@ -63,12 +66,13 @@ if(isset($_POST['save']))
             $ansers=$_POST['ansers'];
             $noques=count($question);
             $canser=$_POST['correctans'];
-      
+
            for($i=0;$i<$noques;$i++)
            {
+             $question3=mysqli_real_escape_string($conn,($question[$i]));
               $qusno=$i+1;
               $sql="INSERT INTO `question`(`questionNo`, `Question`, `examid`)
-              VALUES ('$qusno','$question[$i]','$_POST[examid]')";
+              VALUES ('$qusno','$question3','$_POST[examid]')";
               if (mysqli_query($conn, $sql)) 
               {
                 $ques_id = mysqli_insert_id($conn);
@@ -83,6 +87,7 @@ if(isset($_POST['save']))
                   {
                     $c=0;
                   }
+                  $value=mysqli_real_escape_string($conn,($value));
                   $sql="INSERT INTO `options`(`optionvalue`, `questionId`, `iscoorect`)
                   VALUES ('$value','$ques_id','$c')";
                   mysqli_query($conn,$sql);
@@ -127,8 +132,9 @@ if(isset($_POST['save']))
            for($i=0;$i<$noques;$i++)
            {
               $qusno=$i+1;
+              $question3=mysqli_real_escape_string($conn,($question[$i]));
               $sql="INSERT INTO `question`(`questionNo`, `Question`, `examid`)
-              VALUES ('$qusno','$question[$i]','$exam_id')";
+              VALUES ('$qusno','$question3','$exam_id')";
               if (mysqli_query($conn, $sql)) 
               {
                 $ques_id = mysqli_insert_id($conn);
@@ -143,6 +149,7 @@ if(isset($_POST['save']))
                   {
                     $c=0;
                   }
+                  $value=mysqli_real_escape_string($conn,($value));
                   $sql="INSERT INTO `options`(`optionvalue`, `questionId`, `iscoorect`)
                   VALUES ('$value','$ques_id','$c')";
                   mysqli_query($conn,$sql);
@@ -185,9 +192,10 @@ if(isset($_POST['publish']))
         for($i=0;$i<$noques;$i++)
         {
             $num+=1;
+            $question3=mysqli_real_escape_string($conn,($question[$i]));
           $canser=$_POST['correctans'];
            $sql="INSERT INTO `question`(`questionNo`, `Question`, `examid`)
-           VALUES ('$num','$question[$i]','$_POST[examid]')";
+           VALUES ('$num','$question3','$_POST[examid]')";
            if (mysqli_query($conn, $sql)) 
            {
              $ques_id = mysqli_insert_id($conn);
@@ -202,6 +210,7 @@ if(isset($_POST['publish']))
                {
                  $c=0;
                }
+               $value=mysqli_real_escape_string($conn,($value));
                $sql="INSERT INTO `options`(`optionvalue`, `questionId`, `iscoorect`)
                VALUES ('$value','$ques_id','$c')";
                 mysqli_query($conn,$sql);
@@ -228,9 +237,10 @@ if(isset($_POST['publish']))
 
         for($i=0;$i<$noques;$i++)
         {
+          $question3=mysqli_real_escape_string($conn,($question[$i]));
            $qusno=$i+1;
            $sql="INSERT INTO `question`(`questionNo`, `Question`, `examid`)
-           VALUES ('$qusno','$question[$i]','$_POST[examid]')";
+           VALUES ('$qusno','$question3','$_POST[examid]')";
            if (mysqli_query($conn, $sql)) 
            {
              $ques_id = mysqli_insert_id($conn);
@@ -245,6 +255,7 @@ if(isset($_POST['publish']))
                {
                  $c=0;
                }
+               $value=mysqli_real_escape_string($conn,($value));
                $sql="INSERT INTO `options`(`optionvalue`, `questionId`, `iscoorect`)
                VALUES ('$value','$ques_id','$c')";
                mysqli_query($conn,$sql);
@@ -305,9 +316,11 @@ else{
             $exam_id = mysqli_insert_id($conn);
            for($i=0;$i<$noques;$i++)
            {
+          
               $qusno=$i+1;
+              $question3=mysqli_real_escape_string($conn,($question[$i]));
               $sql="INSERT INTO `question`(`questionNo`, `Question`, `examid`)
-              VALUES ('$qusno','$question[$i]','$exam_id')";
+              VALUES ('$qusno','$question3','$exam_id')";
               if (mysqli_query($conn, $sql)) 
               {
                 $ques_id = mysqli_insert_id($conn);
@@ -322,6 +335,7 @@ else{
                   {
                     $c=0;
                   }
+                  $value=mysqli_real_escape_string($conn,($value));
                   $sql="INSERT INTO `options`(`optionvalue`, `questionId`, `iscoorect`)
                   VALUES ('$value','$ques_id','$c')";
                   mysqli_query($conn,$sql);
