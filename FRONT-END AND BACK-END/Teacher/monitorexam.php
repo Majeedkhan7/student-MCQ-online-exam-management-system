@@ -133,7 +133,7 @@ clearInterval(x);
                         <h3>Attending Student List</h3>
                       <?php
                          require '../database_connection.php'; 
-                         $sql="SELECT * FROM `students` LEFT JOIN student_has_exam on students.user_login_id=student_has_exam.student_id WHERE student_has_exam.Exam_id='$_GET[id]' or student_has_exam.Exam_id is null";    
+                         $sql="SELECT * FROM `students` LEFT JOIN student_has_exam on students.user_login_id=student_has_exam.student_id WHERE student_has_exam.Exam_id='$_GET[id]' ";    
                          $sqlresult=$conn->query($sql);
                          if($sqlresult->num_rows > 0) 
                          {
@@ -142,8 +142,6 @@ clearInterval(x);
                              {
                                 if($studentdata['Examstatus']=="attended"){
                                     echo'<div class="p-2 group shadow-sm list content">'.$studentdata['name'].'<span class="Correct">Completed</span></div>';
-                                }else{
-                                    echo'<div class="p-2 group shadow-sm list content">'.$studentdata['name'].'</div>';
                                 }
                              }  
                          }

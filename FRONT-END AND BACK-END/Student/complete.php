@@ -103,9 +103,37 @@ if($result->num_rows > 0)
   $data1=$no_correct_result->fetch_assoc();
   $no_of_correct=(int)$data1['nocorrect'];
 
-  $exam_totall_marks=($markperquestion*$no_of_correct);
+  $exam_totall_marks=(int)($markperquestion*$no_of_correct);
 
-  $updateExamResult="UPDATE `student_has_exam` SET `Examstatus`='attended',`result`='$exam_totall_marks'
+  if ($exam_totall_marks>85)
+  {
+      $grade = "A";
+      $state="Passed";
+  }
+  else if($exam_totall_marks>65)
+  {
+      $grade = "B";
+      $state="Passed";
+  }
+  else if($exam_totall_marks>45)
+  {
+      $grade = "C";
+      $state="Passed";
+  }
+  else if($exam_totall_marks>25)
+  {
+      $grade = "S";
+      $state="Passed";
+  }
+  else
+  {
+      $grade = "W";
+      $state="Failed";
+  }
+
+
+
+  $updateExamResult="UPDATE `student_has_exam` SET `Examstatus`='attended',`result`='$exam_totall_marks',`GRADE`='$grade',`ExamResult`='$state'
    WHERE student_id='$_SESSION[student_login_id]' AND Exam_id='$_SESSION[examid]'";
     if ($conn->query($updateExamResult) === TRUE) {
        echo "New record created successfully";
@@ -171,13 +199,41 @@ $no_of_correct=(int)$data1['nocorrect'];
 
 $exam_totall_marks=($markperquestion*$no_of_correct);
 
-$updateExamResult="UPDATE `student_has_exam` SET `Examstatus`='attended',`result`='$exam_totall_marks'
- WHERE student_id='$_SESSION[student_login_id]' AND Exam_id='$_SESSION[examid]'";
-if ($conn->query($updateExamResult) === TRUE) {
- 
-} else {
-  echo "Error: " . $sql . "<br>" . $conn->error;
-}
+if ($exam_totall_marks>85)
+  {
+      $grade = "A";
+      $state="Passed";
+  }
+  else if($exam_totall_marks>65)
+  {
+      $grade = "B";
+      $state="Passed";
+  }
+  else if($exam_totall_marks>45)
+  {
+      $grade = "C";
+      $state="Passed";
+  }
+  else if($exam_totall_marks>25)
+  {
+      $grade = "S";
+      $state="Passed";
+  }
+  else
+  {
+      $grade = "W";
+      $state="Failed";
+  }
+
+
+
+  $updateExamResult="UPDATE `student_has_exam` SET `Examstatus`='attended',`result`='$exam_totall_marks',`GRADE`='$grade',`ExamResult`='$state'
+   WHERE student_id='$_SESSION[student_login_id]' AND Exam_id='$_SESSION[examid]'";
+    if ($conn->query($updateExamResult) === TRUE) {
+       echo "New record created successfully";
+    } else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+    }
 }
 }
 ?>

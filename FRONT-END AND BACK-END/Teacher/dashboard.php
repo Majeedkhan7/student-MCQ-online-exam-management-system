@@ -23,6 +23,41 @@ foreach($query1 as $data)
 {
 //$TotallStudent[] = $data['student'];
 }
+$a=array();
+$b=array();
+$c=array();
+$d=array();
+$e=array();
+$totall=0;
+$PI="SELECT COUNT(id) as no,GRADE FROM `student_has_exam` GROUP BY GRADE ORDER BY GRADE ASC";
+$PIresult=mysqli_query($conn,$PI);
+while($value=mysqli_fetch_assoc($PIresult))
+{
+  array_push($a,$value['no']);
+  array_push($c,$value['GRADE']);
+  $totall+=$value['no'];
+}
+foreach ($a as $value) {
+  $z=($value/$totall)*100;
+  array_push($b,$z);
+
+}
+
+
+$studentchart="SELECT count(id) ,student_has_exam.Exam_id from mcqsystem.student_has_exam group by Exam_id  order by Exam_id asc";
+$studentchartR=mysqli_query($conn,$studentchart);
+while($value=mysqli_fetch_assoc($studentchartR))
+{
+  array_push($d,$value['count(id)']);
+}
+
+
+$examchart="SELECT * FROM mcqsystem.student_has_exam inner join exams on student_has_exam.Exam_id=exams.id group by student_has_exam.Exam_id order by student_has_exam.Exam_id asc";
+$examchartR=mysqli_query($conn,$examchart);
+while($value=mysqli_fetch_assoc($examchartR))
+{
+  array_push($e,$value['name']);
+}
 
 ?>
 <!DOCTYPE html>
@@ -36,7 +71,13 @@ foreach($query1 as $data)
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <link rel="stylesheet" href="../assets/css/dashboard.css">
+<style>
+  .chartbox{
+    width: 300px;
+  }
+</style>
 <body>
 <div style="height:100%;">
             <div class="side"> 
@@ -48,11 +89,15 @@ foreach($query1 as $data)
 
                 <div class=" content d-flex flex-column ">
                     <div class=" d-flex flex-row justify-content-around">
-                            <div  class="w-50 mr-5 border">
-                                <canvas id="myChart"></canvas>
+                            <div  class="w-50  mr-5 border">
+                            <h4 class="text-center">Attendance Per Exam</h4>
+                              <canvas id="myChart1" class="ml-5 mt-3"></canvas>
                             </div>
-                            <div class="w-50 mr-5 border">
-                                <canvas id="myChart1"></canvas>
+                            <div class="w-50 mr-5 border"  id="donutchart">
+                            <h4 class="text-center">Average Result Grade Percentages(%)</h4>
+                            <div class="chartbox ml-5">
+                              <canvas id="myChart" height="40vh" width="80vw" class="ml-5 mt-3"></canvas>
+                              </div>
                             </div>
                     </div>
                     <div class=" d-flex flex-row justify-content-around">
@@ -144,41 +189,46 @@ foreach($query1 as $data)
 <script src="../assets/js/Teacher/dashboardPagination2.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  const labels =  <?php echo json_encode($Exam) ?>;
 
   const data = {
-    labels: labels,
-    datasets: [
-        {
-      label: 'No of attended students',
-      backgroundColor: 'rgb(255, 99, 132)',
-      borderColor: 'rgb(255, 99, 132)',
-      data: [0, 10, 5, 2, 20, 30, 45],
-    },
-    {
-      label: 'No oF Passed Student',
-      backgroundColor: 'rgb(0,0,255)',
-      borderColor: 'rgb(0,0,255)',
-      data: [10,6 ,7, 2, 15, 50, 90],
-    }
-]
-  };
-
-  const config = {
-  type: 'line',
-  data: data,
-  options: {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      title: {
-        display: true,
-        text: 'Student Attendace '
-      }
+  labels: <?php echo json_encode($c) ?> ,
+  datasets: [{
+    label:  <?php echo json_encode($c) ?> ,
+    data: <?php echo json_encode($b) ?>,
+    backgroundColor: [
+      'rgb(255, 99, 132)',
+      'rgb(54, 162, 235)',
+      'rgb(168, 50, 160',
+      'rgb(80, 50, 168)',
+      'rgb(89, 168, 50)'
+    ],
+    hoverOffset: 4
+  }]
+};
+const options={
+ plugins:{
+  legend:{
+    display:true,
+    position:'right',
+    labels:{
+      boxWidth:10,
+      padding:20
     }
   },
+  title:{
+    display:false,
+    text:'Average Result Grade Percentages(%)'
+  }
+  
+ },
+
+
+}
+const config = {
+  type: 'doughnut',
+  data: data,
+  options
+  
 };
 </script>
 <script>
@@ -186,8 +236,52 @@ foreach($query1 as $data)
       document.getElementById('myChart'),
       config
     );
-    const myChart1 = new Chart(
+ </script>
+
+
+
+<script>
+  const labels1 = <?php echo json_encode($e) ?>;
+const data1 = {
+  labels: labels1,
+  datasets: [
+    {
+      label: 'Students',
+      data: <?php echo json_encode($d) ?>,
+      backgroundColor:['rgb(255, 99, 132)'],
+      stack: 'Stack 0',
+    }
+   
+  ]
+};
+  const config1 = {
+  type: 'bar',
+  data: data1,
+  options: {
+    plugins: {
+      title: {
+        display: false,
+        text: 'Chart.js Bar Chart - Stacked'
+      },
+    },
+    responsive: true,
+    interaction: {
+      intersect: false,
+    },
+    scales: {
+      x: {
+        stacked: true,
+      },
+      y: {
+        stacked: true
+      }
+    }
+  }
+};
+
+
+const myChart1 = new Chart(
       document.getElementById('myChart1'),
-      config
+      config1
     );
-  </script>
+</script>

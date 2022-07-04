@@ -207,7 +207,11 @@ if(isset($_POST['publish']))
                 mysqli_query($conn,$sql);
              }
 
-
+             $sql="UPDATE `exams` SET `status`='published' WHERE id='$_POST[examid]'";
+             if($conn->query($sql) === TRUE) 
+             {
+             header("Location: Teacher_home.php");
+             }
            }
            else 
            {
@@ -263,7 +267,7 @@ if(isset($_POST['publish']))
          header("Location: Teacher_home.php");
         
       }
-      
+   
     }
     else{
       $sql="SELECT * FROM `question` WHERE examid='$_POST[examid]'";
