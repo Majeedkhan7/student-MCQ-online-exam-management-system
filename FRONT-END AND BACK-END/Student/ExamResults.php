@@ -51,6 +51,12 @@ if(isset($_GET['exid'])){
       $grade = "W";
       $state="Failed";
   }
+
+
+$userdata="SELECT * FROM mcqsystem.students where user_login_id='$_SESSION[student_login_id]'";
+$userresult=mysqli_query($conn,$userdata);
+$userdetails=mysqli_fetch_assoc($userresult);
+
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,9 +71,30 @@ if(isset($_GET['exid'])){
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 <link rel="stylesheet" href="../assets/css/student/examresult.css">
 <body>
-  	<div>
-        <div class="side"></div>
-            <div class="side2 border d-flex flex-column"  style="height:713.2px;">
+<nav class="shadow-sm navbar navbar-expand-lg navbar-light bg-ligh bg-white rounded">
+  <a class="navbar-brand" href="#">SCHOOL MCQ ONLINE APPLICATION</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+    <ul class="navbar-nav ml-auto">
+    <div class="user-box dropdown">
+						<a class="d-flex align-items-center nav-link  dropdown-toggle-nocaret" href="#" role="button" data-toggle="dropdown"  aria-expanded="false">
+							<img src="../assets/u.jpg" width="50" class="rounded-circle" alt="user avatar">
+							<div class="user-info ps-3 ml-1">
+								<p class="user-name mb-0"><?php echo $userdetails['name']; ?></p>
+								<p class="designattion mb-0">Student</p>
+							</div>
+						</a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated profile-dropdown">
+                    <a class="dropdown-item text-danger" href="../logout.php">Logout</a>
+             </div>
+		  </div>
+    </ul>
+  </div>
+</nav>
+
+        
+            <div class="side2 border d-flex flex-column"  style="height:631.2px;">
                 <div class="mt-4 ml-3 d-flex flex-row">
                     <a href="student_home.php" class="mt-0"><i class="fas fa-chevron-left fa-2x"></i></a>
                     <h3 class="ml-3 mt-0" ><?php echo $_SESSION['name']?></h3>
@@ -132,7 +159,7 @@ if(isset($_GET['exid'])){
                         </div>
                     </div>    
             </div> 
-    </div>
+
 </body>
 </html>
 <script src="../assets/js/student/ParginationOfExamResult.js"></script>

@@ -67,28 +67,25 @@ echo"<script>Swal.fire({
     </ul>
   </div>
 </nav>
-
-
-        <div class="side2 border"> 
-            <div class="main">   
-              <form action="" method="POST">
-                <div class="form-group pull-right search">
-                    <input type="text" class="search form-control datasearch" placeholder="Search... " name="searchvalue"  required>
-                    <button type="submit" class="btn btn-primary btnsearch" name="search">Search</button>
-                    <a href="student_home.php" class="btn btn-warning ml-3">Reset</a>
-              </form>  
-            
-                </div>
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th>Exam</th>
-                      <th>Exam Start Time</th>
-                      <th>Exam Duration</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody id="jar">
+<div class="side2 border" style="height:631.2px;"> 
+  <div class="main">   
+    <form action="" method="POST">
+      <div class="form-group pull-right search">
+        <input type="text" class="search form-control datasearch" placeholder="Search... " name="searchvalue"  required>
+        <button type="submit" class="btn btn-primary btnsearch" name="search">Search</button>
+        <a href="student_home.php" class="btn btn-warning ml-3">Reset</a>
+    </form>  
+      </div>
+          <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Exam</th>
+                  <th>Exam Start Time</th>
+                  <th>Exam Duration</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="jar">
                   <?php 
                   require('../database_connection.php');
                 
@@ -124,10 +121,9 @@ echo"<script>Swal.fire({
                         echo" </tbody></table>";
                       }
                     
-                    ?>
-                 
-              </div>
-        </div>
+                    ?>               
+  </div>
+</div>
 </body>
 </html>
 <script src="../assets/js/student/ParginationOfHomePage.js"></script>
