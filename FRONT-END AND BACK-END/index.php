@@ -47,8 +47,8 @@ if(isset($_SESSION['student_login_id']))
             <label for="floatingInput">Password</label>
             <input type="password" class="form-control" placeholder="Password" id="pwd" name="password">
             <i class="fas fa-check-circle pr"></i>
-			<i class="fas fa-exclamation-circle pw"></i>
-			<small class="p-error" style="display: none;color: red;">password must have at least 8 characters</small>
+			    <i class="fas fa-exclamation-circle pw"></i>
+			    <small class="p-error" style="display: none;color: red;">password cannot be blank</small>
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-block" name="Sign">Sign in</button>

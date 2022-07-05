@@ -40,7 +40,7 @@ var perror = document.querySelector('.p-error');
 pwd.addEventListener('keyup',function(){
 
 
-if(pwd.value.length < 8)
+if(pwd.value.length =='')
 {
     pwrong.style.visibility = 'visible';
     pright.style.visibility = 'hidden';
@@ -89,17 +89,6 @@ Swal.fire
  icon: 'error',
  title: 'Password Validation',
  text: 'fill out the Password',
-})
-return false;
-
-}
-else if(pwd.value.length < 8)
-{
-Swal.fire
-({
- icon: 'error',
- title: 'Password Validation',
- text: 'password must have at least 8 characters',
 })
 return false;
 

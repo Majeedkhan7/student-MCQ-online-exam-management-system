@@ -1,0 +1,54 @@
+php
+Question :PHP stands for -
+1.Hypertext Preprocessor
+2.Pretext Hypertext Preprocessor
+3.Personal Home Processor
+4.None of the above
+
+Question :Who is known as the father of PHP?
+1.Drek Kolkevi
+2.List Barely
+3.Rasmus Lerdrof
+4.None of the above
+
+Question :Variable name in PHP starts with -
+1.! (Exclamation)
+2.$ (Dollar)
+3.& (Ampersand)
+4.# (Hash)
+
+
+Question : Which of the following is the default file extension of PHP?
+1.php
+2..hphp
+3..xml
+4..html
+
+
+Javascript
+Question:Which type of JavaScript language is ___
+1.Object-Oriented
+2.Object-Based
+3.Assembly-language
+4.High-level
+
+Question :Which one of the following also known as Conditional Expression:
+1.Alternative to if-else
+2.Switch statement
+3.If-then-else statement
+4.immediate if
+
+
+Question: When interpreter encounters an empty statements, what it will do:
+1.Shows a warning
+2.Prompts to complete the statement
+3.Throws an error
+4.Ignores the statements
+
+
+Question :The function and  var are known as:
+1.Keywords
+2.Declaration statements
+3.Data types
+4.Prototypes
+
