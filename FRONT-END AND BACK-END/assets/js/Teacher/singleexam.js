@@ -22,6 +22,8 @@ $(function ()
     var ans3=document.sample.ans3.value;
     var ans4=document.sample.ans4.value;
     var cans=document.sample.main.value;
+   
+
     if(ques==''){
       alert('fill out the question field');
       return false
@@ -71,6 +73,7 @@ console.log(correctans);
     var td2 = tr.appendChild(document.createElement('td'));
     var td3 = tr.appendChild(document.createElement('td'));
     const cars = [ans1,ans2,ans3,ans4];
+
 
     td1.innerHTML='<input type="hidden" name="question[]" value="'+ques+'">'+ques;
     td2.innerHTML='<input type="hidden" name="ansers[]" value="'+cars+'"><input type="hidden" name="correctans[]" value="'+correctans+'">'+ans1+','+ans2+','+ans3+','+ans4;
