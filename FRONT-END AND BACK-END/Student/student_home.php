@@ -26,13 +26,18 @@ if (!isset($_SESSION['student_login_id']))
 }
 
 if(isset($_GET['error'])){
-  echo "<script>
-  Swal.fire(
-  'Exam Time!',
-  '$_GET[error]',
-  'warning'
-)
-</script>";
+echo"<script>Swal.fire({
+  title: 'Exam Time!',
+  icon: 'warning',
+  text: '$_GET[error]',
+  confirmButtonText: 'OK',
+   
+  }).then((result) => {
+  if (result.isConfirmed) {
+    window.location.assign('student_home.php')
+  } 
+  })</script>";
+
 }
  ?>
     <div style="height:100%;">
