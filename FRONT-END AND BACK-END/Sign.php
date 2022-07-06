@@ -23,7 +23,7 @@ if(isset($_POST['Sign'])){
 		        exit();
             }else{
                 $_SESSION['teacher_login_id'] = $data['id'];
-            	header("Location: Teacher/Teacher_home.php");
+            	header("Location: Teacher/dashboard.php");
 		        exit();
             }
         }else{

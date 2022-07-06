@@ -59,6 +59,9 @@ while($value=mysqli_fetch_assoc($examchartR))
   array_push($e,$value['name']);
 }
 
+$userdata="SELECT * FROM mcqsystem.teachers where user_login_id='$_SESSION[teacher_login_id]'";
+$userresult=mysqli_query($conn,$userdata);
+$userdetails=mysqli_fetch_assoc($userresult);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -79,9 +82,36 @@ while($value=mysqli_fetch_assoc($examchartR))
   }
 </style>
 <body>
-<div style="height:100%;">
-            <div class="side"> 
-            </div>
+<nav class="shadow-sm navbar navbar-expand-lg navbar-light bg-ligh bg-white rounded">
+  <a class="navbar-brand" href="#">SCHOOL MCQ ONLINE APPLICATION</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <ul class="navbar-nav align-items-center">
+        <li class="nav-item active">
+          <a class="nav-link" href="dashboard.php">Dashboard <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Teacher_home.php">Exams</a>
+        </li>
+      </ul>
+    <ul class="navbar-nav ml-auto">
+    <div class="user-box dropdown">
+						<a class="d-flex align-items-center nav-link  dropdown-toggle-nocaret" href="#" role="button" data-toggle="dropdown"  aria-expanded="false">
+							<img src="../assets/u.jpg" width="50" class="rounded-circle" alt="user avatar">
+							<div class="user-info ps-3 ml-1">
+								<p class="user-name mb-0"><?php echo $userdetails['name']; ?></p>
+								<p class="designattion mb-0">Teacher</p>
+							</div>
+						</a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated profile-dropdown">
+                    <a class="dropdown-item text-danger" href="../logout.php">Logout</a>
+             </div>
+		  </div>
+    </ul>
+  </div>
+</nav>
+        
             <div class="side2 border" >
                 <div class="title-main">
                     <h3 class="title">Dashboard</h3>
@@ -182,7 +212,7 @@ while($value=mysqli_fetch_assoc($examchartR))
                 </div>  
             </div>
                   
-</div>
+
 </body>
 </html>
 <script src="../assets/js/Teacher/dashboardPagination1.js"></script>

@@ -1,12 +1,17 @@
 <?php 
 session_start();
 
+require '../database_connection.php';
+
 //teacher auth
 if (!isset($_SESSION['teacher_login_id']))
 {
   header("Location: ../index.php?error=You Need To Login First");
   exit();
 }
+$userdata="SELECT * FROM mcqsystem.teachers where user_login_id='$_SESSION[teacher_login_id]'";
+$userresult=mysqli_query($conn,$userdata);
+$userdetails=mysqli_fetch_assoc($userresult);
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,10 +27,37 @@ if (!isset($_SESSION['teacher_login_id']))
 <link rel="stylesheet" href="../assets/css/Teacher/teachers_home.css">
 </head>
 <body>
-    <div style="height:100%;">
-        <div class="side"> 
-        </div>
-        <div class="side2 border"> 
+<nav class="shadow-sm navbar navbar-expand-lg navbar-light bg-ligh bg-white rounded">
+  <a class="navbar-brand" href="#">SCHOOL MCQ ONLINE APPLICATION</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <ul class="navbar-nav align-items-center">
+        <li class="nav-item ">
+          <a class="nav-link" href="dashboard.php">Dashboard </a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="student_home.php">Exams<span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+    <ul class="navbar-nav ml-auto">
+    <div class="user-box dropdown">
+						<a class="d-flex align-items-center nav-link  dropdown-toggle-nocaret" href="#" role="button" data-toggle="dropdown"  aria-expanded="false">
+							<img src="../assets/u.jpg" width="50" class="rounded-circle" alt="user avatar">
+							<div class="user-info ps-3 ml-1">
+								<p class="user-name mb-0"><?php echo $userdetails['name']; ?></p>
+								<p class="designattion mb-0">Teacher</p>
+							</div>
+						</a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated profile-dropdown">
+                    <a class="dropdown-item text-danger" href="../logout.php">Logout</a>
+             </div>
+		  </div>
+    </ul>
+  </div>
+</nav> 
+     
+        <div class="side2 border" style="height: 631.2px;"> 
             <div class="main">   
               <form action="" method="POST">
                 <div class="form-group pull-right search">
@@ -34,9 +66,7 @@ if (!isset($_SESSION['teacher_login_id']))
                     <a href="Teacher_home.php" class="btn btn-warning ml-3">Reset</a>
                     <a href="single_Exam.php" class="btn btn-success ml-3">New Exam</a>
 
-              </form>  
-                   
-              <a href="../logout.php" class="btn btn-info btn  p-2 ml-auto" style="width: 50px;"><i class="fas fa-sign-out-alt fa-lg"></i></a>
+              </form> 
                       
                 </div>
                 <table class="table table-bordered">
@@ -70,21 +100,20 @@ if (!isset($_SESSION['teacher_login_id']))
                        }
                        echo"</tr>";
                       }
+                      echo" </tbody>
+                         </table>
+                         <nav class='bar'>
+                           <ul class='pagination justify-content-center pagination-sm'>
+                           </ul>
+                       </nav> ";
+                  }
+                  else{
+                    echo'<tr><td colspan="4" class="text-center">NO DATA AVAILABLE</td></tr>';
+                    echo" </tbody></table>";
                   }
                     ?>
-                  </tbody>
-                </table>
-                <nav class="bar">
-                  <ul class="pagination justify-content-center pagination-sm">
-                  </ul>
-              </nav>
-              </div>
-              
+                </div>   
         </div>
-
-       
-    </div>
-   
 </body>
 </html>
 <script src="../assets/js/Teacher/TeacherHomePargination.js"></script>
