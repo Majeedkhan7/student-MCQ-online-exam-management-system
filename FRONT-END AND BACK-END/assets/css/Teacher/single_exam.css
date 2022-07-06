@@ -1,17 +1,4 @@
-html, body {
-    height: 100%;
-  }
-      .side{
-          height: 100%;
-          background-color:#81d4fa;
-          width: 5%;
-          float: left;
-  
-      }
-      .side2{
-          height: 100%;
-          margin-left: 5%;
-      }
+
       .main{
           margin-left: 40px;
           margin-right: 20px;
