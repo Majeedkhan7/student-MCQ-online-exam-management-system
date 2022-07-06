@@ -220,6 +220,7 @@ $userdetails=mysqli_fetch_assoc($userresult);
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 
+// colorarr []; loop->>if(res==A > colorarr.push(green))
   const data = {
   labels: <?php echo json_encode($c) ?> ,
   datasets: [{
