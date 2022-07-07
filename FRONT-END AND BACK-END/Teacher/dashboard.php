@@ -219,20 +219,34 @@ $userdetails=mysqli_fetch_assoc($userresult);
 <script src="../assets/js/Teacher/dashboardPagination2.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+  const colors=[];
+  const grade=<?php echo json_encode($c) ?>;
+  for(var i=0;i<grade.length;i++){
+    if(grade[i]=="A"){
+      colors.push("rgb(0,255,0)");
+    }
+    if(grade[i]=="B"){
+      colors.push("rgb(0,0,205)");
+    }
+    if(grade[i]=="C"){
+      colors.push("rgb(173,216,230)");
+    }
+    if(grade[i]=="S"){
+      colors.push("rgb(255,215,0)");
+    }
+    if(grade[i]=="W"){
+      colors.push("rgb(255,0,0)");
+    }
 
-// colorarr []; loop->>if(res==A > colorarr.push(green))
+  }
+  console.log(colors)
+
   const data = {
   labels: <?php echo json_encode($c) ?> ,
   datasets: [{
     label:  <?php echo json_encode($c) ?> ,
     data: <?php echo json_encode($b) ?>,
-    backgroundColor: [
-      'rgb(255, 99, 132)',
-      'rgb(54, 162, 235)',
-      'rgb(168, 50, 160',
-      'rgb(80, 50, 168)',
-      'rgb(89, 168, 50)'
-    ],
+    backgroundColor:colors,
     hoverOffset: 4
   }]
 };
