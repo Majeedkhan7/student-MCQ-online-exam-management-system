@@ -76,7 +76,7 @@ echo"<script>Swal.fire({
         <a href="student_home.php" class="btn btn-warning ml-3">Reset</a>
     </form>  
       </div>
-          <table class="table table-bordered">
+          <table id="example" class="table table-bordered">
               <thead>
                 <tr>
                   <th>Exam</th>
@@ -127,3 +127,15 @@ echo"<script>Swal.fire({
 </body>
 </html>
 <script src="../assets/js/student/ParginationOfHomePage.js"></script>
+<script>
+  $(document).ready(function() {
+
+$('#example tr').click(function() {
+    var href = $(this).find("a").attr("href");
+    if(href) {
+        window.location = href;
+    }
+});
+
+});
+</script>

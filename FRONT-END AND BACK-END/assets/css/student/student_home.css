@@ -35,3 +35,6 @@
         color: black;
 
     }
+    #example td:hover {
+        cursor: pointer;
+    }

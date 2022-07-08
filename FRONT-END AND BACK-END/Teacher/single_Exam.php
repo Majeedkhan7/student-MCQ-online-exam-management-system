@@ -82,52 +82,53 @@ $userdetails=mysqli_fetch_assoc($userresult);
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 <link rel="stylesheet" href="../assets/css/Teacher/single_exam.css">
 <link rel="stylesheet" type="text/css" href="../assets/css/jquery.datetimepicker.css" >
-
 <script src="../assets/js/jquery.datetimepicker.full.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.min.css" integrity="sha512-cyIcYOviYhF0bHIhzXWJQ/7xnaBuIIOecYoPZBgJHQKFPo+TOBA+BY1EnTpmM8yKDU4ZdI3UGccNGCEUdfbBqw==" crossorigin="anonymous" referrerpolicy="no-referrer" /><script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js" integrity="sha512-IZ95TbsPTDl3eT5GwqTJH/14xZ2feLEGJRbII6bRKtE/HC6x3N4cHye7yyikadgAsuiddCY2+6gMntpVHL1gHw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <body>
-<nav class="shadow-sm navbar navbar-expand-lg navbar-light bg-ligh bg-white rounded">
-  <a class="navbar-brand" href="#">SCHOOL MCQ ONLINE APPLICATION</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <ul class="navbar-nav align-items-center">
-        <li class="nav-item ">
-          <a class="nav-link" href="dashboard.php">Dashboard </a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="student_home.php">Exams<span class="sr-only">(current)</span></a>
-        </li>
-      </ul>
-    <ul class="navbar-nav ml-auto">
-    <div class="user-box dropdown">
-						<a class="d-flex align-items-center nav-link  dropdown-toggle-nocaret" href="#" role="button" data-toggle="dropdown"  aria-expanded="false">
-							<img src="../assets/u.jpg" width="50" class="rounded-circle" alt="user avatar">
-							<div class="user-info ps-3 ml-1">
-								<p class="user-name mb-0"><?php echo $userdetails['name']; ?></p>
-								<p class="designattion mb-0">Teacher</p>
-							</div>
-						</a>
-            <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated profile-dropdown">
-                    <a class="dropdown-item text-danger" href="../logout.php">Logout</a>
-             </div>
-		  </div>
-    </ul>
-  </div>
-</nav>    
+        <nav class="shadow-sm navbar navbar-expand-lg navbar-light bg-ligh bg-white rounded">
+          <a class="navbar-brand" href="#">SCHOOL MCQ ONLINE APPLICATION</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <ul class="navbar-nav align-items-center">
+                <li class="nav-item ">
+                  <a class="nav-link" href="dashboard.php">Dashboard </a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-link" href="student_home.php">Exams<span class="sr-only">(current)</span></a>
+                </li>
+              </ul>
+            <ul class="navbar-nav ml-auto">
+            <div class="user-box dropdown">
+                    <a class="d-flex align-items-center nav-link  dropdown-toggle-nocaret" href="#" role="button" data-toggle="dropdown"  aria-expanded="false">
+                      <img src="../assets/u.jpg" width="50" class="rounded-circle" alt="user avatar">
+                      <div class="user-info ps-3 ml-1">
+                        <p class="user-name mb-0"><?php echo $userdetails['name']; ?></p>
+                        <p class="designattion mb-0">Teacher</p>
+                      </div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated profile-dropdown">
+                            <a class="dropdown-item text-danger" href="../logout.php">Logout</a>
+                    </div>
+              </div>
+            </ul>
+          </div>
+        </nav>    
         <div class="side2 border" style="height:631.2px;">
-        <?php if (isset($_GET['error'])) { ?>
-        <div class="alert alert-danger alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <?php echo $_GET['error']; ?>
-      </div>
-      <?php }?>
-      <?php if (isset($_GET['success'])) { ?>
-    <div class="alert alert-success alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <?php echo $_GET['success']; ?>
-      </div>
-      <?php }?>
-      
+          <?php if (isset($_GET['success'])) {
+            echo"<script>Swal.fire({
+              title: 'Exam',
+              icon: 'success',
+              text: '$_GET[success]',
+              confirmButtonText: 'OK',
+              
+              }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.assign('single_Exam.php?id=$exam_main')
+              } 
+              })</script>";
+            }?>
           <div class="examname">
             <a href="Teacher_home.php"><i class="fas fa-chevron-left fa-2x"></i></a>
             <?php
@@ -150,7 +151,7 @@ $userdetails=mysqli_fetch_assoc($userresult);
                     <tr>
                       <th style="width:500px;">Question</th>
                       <th style="width:600px;">Answers</th>
-                      <th>Action</th>
+                      <th style="width:80px;">Action</th>
                     </tr>
                   </thead>
                   <tbody id="jar">

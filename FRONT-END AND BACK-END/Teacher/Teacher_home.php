@@ -20,7 +20,8 @@ $userdetails=mysqli_fetch_assoc($userresult);
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Home || Page</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
@@ -69,7 +70,7 @@ $userdetails=mysqli_fetch_assoc($userresult);
               </form> 
                       
                 </div>
-                <table class="table table-bordered">
+                <table id="example" class="table table-bordered">
                   <thead>
                     <tr>
                       <th>Exam</th>
@@ -117,3 +118,15 @@ $userdetails=mysqli_fetch_assoc($userresult);
 </body>
 </html>
 <script src="../assets/js/Teacher/TeacherHomePargination.js"></script>
+<script>
+  $(document).ready(function() {
+
+$('#example tr').click(function() {
+    var href = $(this).find("a").attr("href");
+    if(href) {
+        window.location = href;
+    }
+});
+
+});
+</script>

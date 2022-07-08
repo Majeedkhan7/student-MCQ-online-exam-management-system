@@ -52,7 +52,7 @@ if($_POST['main_id']==0)
       }
     }
   }
-  echo "single_Exam.php?id=$ex_id";
+  echo "single_Exam.php?id=$ex_id & success=successfully created";
 }
 else
 {
@@ -108,7 +108,7 @@ else
       }
     }
   }
-  echo "single_Exam.php?id=$id";
+  echo "single_Exam.php?id=$id & success=successfully updated";
 
 }
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 04, 2022 at 07:47 AM
+-- Generation Time: Jul 08, 2022 at 07:13 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -59,11 +59,7 @@ CREATE TABLE `exams` (
 INSERT INTO `exams` (`id`, `name`, `dateandtime`, `duration`, `teacherid`, `status`, `updatedate`) VALUES
 (1, 'php', '2022-07-11 09:00:00', '45', 2, 'published', '2022-07-02 05:54:06'),
 (2, 'JavaScript', '2022-07-04 08:29:00', '2', 2, 'published', '2022-07-04 02:59:58'),
-(3, 'CSS', '2022-07-08 01:00:00', '45', 2, 'draft', '2022-07-02 06:06:04'),
-(4, 'f', '2022-07-13 08:26:00', '10', 5, 'published', '2022-07-04 02:56:30'),
-(5, 'h', '2022-07-21 08:26:00', '10', 5, 'published', '2022-07-04 02:56:46'),
-(6, 'ff', '2022-07-22 11:00:00', '45', 5, 'published', '2022-07-04 02:57:06'),
-(7, 'rfrf', '2022-07-09 08:27:00', '10', 5, 'published', '2022-07-04 02:57:40');
+(3, 'CSS', '2022-07-08 01:00:00', '45', 2, 'draft', '2022-07-02 06:06:04');
 
 -- --------------------------------------------------------
 
@@ -118,27 +114,7 @@ INSERT INTO `options` (`id`, `optionvalue`, `questionId`, `iscoorect`) VALUES
 (33, 'bgcolor', 9, '0'),
 (34, 'color', 9, '0'),
 (35, 'background-color', 9, '1'),
-(36, 'All of the above', 9, '0'),
-(37, 'h', 10, '0'),
-(38, 'h', 10, '0'),
-(39, 'h', 10, '0'),
-(40, 'h', 10, '0'),
-(41, 'f', 11, '0'),
-(42, 'ff', 11, '1'),
-(43, 'ff', 11, '1'),
-(44, 'f', 11, '0'),
-(45, 'wf', 12, '0'),
-(46, 'wfe', 12, '1'),
-(47, 'efw', 12, '0'),
-(48, 'few', 12, '0'),
-(49, 'ef', 13, '0'),
-(50, 'fe', 13, '1'),
-(51, 'fe', 13, '1'),
-(52, 'fe', 13, '1'),
-(53, 'e', 14, '0'),
-(54, 'rerg', 14, '0'),
-(55, 'gr', 14, '1'),
-(56, 'rggr', 14, '0');
+(36, 'All of the above', 9, '0');
 
 -- --------------------------------------------------------
 
@@ -166,12 +142,7 @@ INSERT INTO `question` (`id`, `questionNo`, `Question`, `examid`) VALUES
 (6, '3', 'In JavaScript, what is a block of statement?', 2),
 (7, '4', 'When interpreter encounters an empty statements, what it will do:', 2),
 (8, '1', 'CSS stands for -', 3),
-(9, '2', 'The property in CSS used to change the background color of an element is -', 3),
-(10, '1', 'h', 4),
-(11, '1', 'f', 5),
-(12, '1', 'q', 6),
-(13, '1', 'ef', 7),
-(14, '2', 'gre', 7);
+(9, '2', 'The property in CSS used to change the background color of an element is -', 3);
 
 -- --------------------------------------------------------
 
