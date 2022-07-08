@@ -8,13 +8,42 @@ if (!isset($_SESSION['teacher_login_id']))
   header("Location: ../index.php?error=You Need To Login First");
   exit();
 }
+$question=array();
+$exam_main=0;
 //get if already have exam 
   if(isset($_GET['id'])){
     $sql="SELECT * FROM `exams` WHERE id='$_GET[id]'";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
-      $row = $result->fetch_assoc();   
+      $examdetails = $result->fetch_assoc();  
+      $exam_main=$examdetails['id'];
     } 
+
+   
+
+    $sql="select * from question where question.examid=$_GET[id]"; 
+    $result1=mysqli_query($conn,$sql);
+    if(mysqli_num_rows($result1)>0){
+        while($row1=mysqli_fetch_assoc($result1))
+        {
+          $temp=array();
+          array_push($temp,$row1['Question']);
+          $sql="select * from options where questionId='$row1[id]'"; 
+          $result=mysqli_query($conn,$sql);
+          while($row=mysqli_fetch_assoc($result))
+          {
+              if($row['iscoorect']==1){
+                $ans=$row['optionvalue'];
+              }
+              array_push($temp,$row['optionvalue']);
+            
+          }
+          array_push($temp,$ans);
+          array_push($question,$temp);
+        }
+    
+}
+
   }
 
   //delete question
@@ -36,6 +65,9 @@ if (!isset($_SESSION['teacher_login_id']))
 $userdata="SELECT * FROM mcqsystem.teachers where user_login_id='$_SESSION[teacher_login_id]'";
 $userresult=mysqli_query($conn,$userdata);
 $userdetails=mysqli_fetch_assoc($userresult);
+
+
+
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,13 +76,13 @@ $userdetails=mysqli_fetch_assoc($userresult);
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Tachers || Single Exam page</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 <link rel="stylesheet" href="../assets/css/Teacher/single_exam.css">
 <link rel="stylesheet" type="text/css" href="../assets/css/jquery.datetimepicker.css" >
-<script src="../assets/js/jquery.js"></script>
+
 <script src="../assets/js/jquery.datetimepicker.full.min.js"></script>
 <body>
 <nav class="shadow-sm navbar navbar-expand-lg navbar-light bg-ligh bg-white rounded">
@@ -95,125 +127,34 @@ $userdetails=mysqli_fetch_assoc($userresult);
         <?php echo $_GET['success']; ?>
       </div>
       <?php }?>
-        <form action="saveExam.php" method="POST" name="sample">
+      
           <div class="examname">
             <a href="Teacher_home.php"><i class="fas fa-chevron-left fa-2x"></i></a>
             <?php
-              if(isset($row['name'])){
-                echo' <input type="text" class="form-control exam" name="exam" value="'.$row['name'].'" required>';
-                echo' <input type="hidden" class="form-control exam" name="examid" value="'.$row['id'].'">';
+              if(isset($examdetails['name'])){
+                echo' <input type="text" class="form-control exam" name="exam" id="examName" value="'.$examdetails['name'].'" required>';
+                echo' <input type="hidden" class="form-control exam" id="examID" name="examid" value="'.$examdetails['id'].'">';
               }
               else{
-                echo' <input type="text" class="form-control exam" name="exam"  placeholder="Exam name" required>';
+                echo' <input type="text" class="form-control exam" id="examName" name="exam"  placeholder="Exam name" required>';
               }
             ?> 
           </div>
-            <div class="main">   
+          <div class="main">   
                 <div class="form-group pull-right control">
                     <label for="Question" id="Question">Question List</label>
-                    <button type="button" class="btn btn-danger p-2 ml-auto" data-toggle="modal" data-target="#myModal">Add Question</button>
+                    <button type="button" class="btn btn-danger p-2 ml-auto" data-toggle="modal" data-target="#myModal1">Add Question</button>
                 </div>   
-        	      <div class="modal fade" id="myModal">
-                <div class="modal-dialog">
-                   <div class="modal-content">
-          <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">ADD NEW Question</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-           <!-- Modal body -->
-                <div class="modal-body">
-                    <input type="text" class="form-control"  id="question" name="question" placeholder="Question Name">
-                    <br>
-                    <label for="a"> Answers list</label>
-                    <div class="d-flex flex-column mb-3">
-                      <div class="p-2 group d-flex flex-row"><input name="main" value="1" class="radio1 mr-2" type="radio"><span class="Correct">correct</span><input type="text" class="form-control a" id="answer" name="ans1" placeholder="Answer 1"></div>
-                      <div class="p-2 group d-flex flex-row"><input name="main" value="2"  class="radio1 mr-2" type="radio"><span class="Correct">correct</span><input type="text" class="form-control a" id="answer1"  name="ans2" placeholder="Answer 2" ></div>
-                      <div class="p-2 group d-flex flex-row"><input name="main" value="3"  class="radio1 mr-2" type="radio"><span class="Correct">correct</span><input type="text" class="form-control a" id="answer2"  name ="ans3"placeholder="Answer 3" ></div>
-                      <div class="p-2 group d-flex flex-row"><input name="main" value="4"  class="radio1 mr-2" type="radio"><span class="Correct">correct</span><input type="text" class="form-control a" id="answer3"  name="ans4"placeholder="Answer 4"></div>
-                    </div>
-                </div>
-          <!-- Modal footer -->
-                <div class="modal-footer">
-                <button type="button" class="btn btn-success btn-add" data-dismiss="modal" id="btnClosePopup">ADD</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          
-          <!-- update model-->
-        	      <div class="modal fade" id="myModal1">
-                <div class="modal-dialog">
-                   <div class="modal-content">
-          <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">update Question</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-           <!-- Modal body -->
-                <div class="modal-body">
-                    <input type="text" class="form-control" placeholder="Question Name">
-                    <br>
-                    <label for="a"> Answers list</label>
-                    <div class="d-flex flex-column mb-3">
-                      <div class="p-2 group d-flex flex-row"><input value="1" class=" mr-2" type="radio"><span class="Correct">correct</span><input type="text" class="form-control "  placeholder="Answer 1"></div>
-                      <div class="p-2 group d-flex flex-row"><input  value="2"  class=" mr-2" type="radio"><span class="Correct">correct</span><input type="text" class="form-control "  placeholder="Answer 2" ></div>
-                      <div class="p-2 group d-flex flex-row"><input  value="3"  class=" mr-2" type="radio"><span class="Correct">correct</span><input type="text" class="form-control "  placeholder="Answer 3" ></div>
-                      <div class="p-2 group d-flex flex-row"><input  value="4"  class=" mr-2" type="radio"><span class="Correct">correct</span><input type="text" class="form-control "  placeholder="Answer 4"></div>
-                    </div>
-                </div>
-          <!-- Modal footer -->
-                <div class="modal-footer">
-                <button type="button" class="btn btn-success btn-add" data-dismiss="modal" id="btnClosePopup">ADD</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
                 <table id="tbl" class="table table-bordered">
                   <thead>
                     <tr>
-                      <th>Question</th>
-                      <th>Answers</th>
+                      <th style="width:500px;">Question</th>
+                      <th style="width:600px;">Answers</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody id="jar">
-                  <?php
-                  if(isset($row['name'])){
-                    $sql2= "SELECT * FROM `question` WHERE examid='$row[id]'";
-                    $result2=mysqli_query($conn,$sql2);
-                    if($result2->num_rows > 0)
-                    {
-                       
-                        while ($row1=mysqli_fetch_array($result2))
-                        {
-                         echo"<tr class='content'>";
-                         echo"<td>".$row1['Question']."</td>";
-                         echo"<td>";
-                         $sql3="SELECT * FROM `options` WHERE questionId='$row1[id]'";
-                         $result3=mysqli_query($conn,$sql3);
-                         if($result3->num_rows > 0)
-                        {
-                          $options='';
-                          while ($row2=mysqli_fetch_array($result3))
-                          {
-                            $options.=$row2['optionvalue'].',';
-                           
-                          }
-                          echo  rtrim($options,",");
-                        }
-                        echo"</td>";
-                        echo"<td>".'<a class="btn btn-danger btn-sm" href="single_Exam.php?delete=' . $row1['id']. '& id='.$row['id']. '">Delete</a>'.'<button type="button" class="btn btn-info btn-sm ml-2" data-toggle="modal" data-target="#myModal1">Edit</button>'."</td>";
-                  
-                        echo"</tr>";
-                        }
-                    }
-                  }
-                  ?>
+                 
                   </tbody>
                 </table>
 
@@ -221,8 +162,8 @@ $userdetails=mysqli_fetch_assoc($userresult);
                    <div class="row">
                       <div class="col-sm">
                       <?php
-                	    if(isset($row['duration'])){
-                           echo'<input type="text" class="form-control" name="datetime"  id="datetimepicker" value="'.$row['dateandtime'].'" required>';
+                	    if(isset($examdetails['duration'])){
+                           echo'<input type="text" class="form-control" name="datetime"  id="datetimepicker" value="'.$examdetails['dateandtime'].'" required>';
                           }
                       else{
                            echo' <input type="text" class="form-control" name="datetime"  id="datetimepicker"  placeholder="Exam Date Time" required>';
@@ -232,28 +173,377 @@ $userdetails=mysqli_fetch_assoc($userresult);
                       </div>
                       <div class="col-sm">
                       <?php
-                	    if(isset($row['duration'])){
-                           echo'  <input type="number" class="form-control" name="duration"  value="'.$row['duration'].'" min="1" required>';
+                	    if(isset($examdetails['duration'])){
+                           echo'  <input type="number" class="form-control" id="durationTime" name="duration"  value="'.$examdetails['duration'].'" min="1" required>';
                           }
                       else{
-                           echo'<input type="number" class="form-control" name="duration"  placeholder="Exam Duration" min="1" required>';
+                           echo'<input type="number" class="form-control" id="durationTime" name="duration"  placeholder="Exam Duration" min="1" required>';
                          }
                         ?>
                        
                       </div>
                       <div class="col-sm">
-                        <button type="submit" class="btn Publish" name="publish">Publish Paper</button>
+                        <button type="submit" class="btn Publish" id="btn-pub" name="publish">Publish Paper</button>
                       </div>
                       <div class="col-sm">
-                        <input type="submit" class="btn btn-success" name="save" value="Save">
+                        <input type="submit" class="btn btn-success" id="btn-save" name="save" value="Save">
                       </div>
-                      </form>
+                     
                     </div>
                    </div>
                 </div>
              
         </div>
-    
+
+                  <!-- insert model -->
+                  <div class="modal" id="myModal1">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                      
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                          <h4 class="modal-title">ADD NEW QUESTION</h4>
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <input type="text" id="add-question" class="form-control" placeholder="Question Name">
+                            <br>
+                            <label for="a"> Answers list</label>
+                            <div class="d-flex flex-column mb-3">
+                              <div class="p-2 group d-flex flex-row"><input  value="1" name="add-choice" id="add-r1"  class=" mr-2" type="radio"><input type="text" id="add-ans1"  class="form-control "  placeholder="Answer 1"></div>
+                              <div class="p-2 group d-flex flex-row"><input  value="2" name="add-choice" id="add-r2"  class=" mr-2" type="radio"><input type="text" id="add-ans2" class="form-control "  placeholder="Answer 2" ></div>
+                              <div class="p-2 group d-flex flex-row"><input  value="3" name="add-choice" id="add-r3"   class=" mr-2" type="radio"><input type="text" id="add-ans3" class="form-control "  placeholder="Answer 3" ></div>
+                              <div class="p-2 group d-flex flex-row"><input  value="4" name="add-choice" id="add-r4"   class=" mr-2" type="radio"><input type="text" id="add-ans4" class="form-control "  placeholder="Answer 4"></div>
+                            </div>
+                        </div> 
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-warning btn-add" data-dismiss="modal" >Add</button>
+                          <button type="button" class="btn btn-danger" data-dismiss="modal" >Close</button>
+                        </div>
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <!-- Edit model -->
+                <div class="modal" id="myModal">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                      
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                          <h4 class="modal-title">UPDATE QUESTION</h4>
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <input type="text" id="question" class="form-control" placeholder="Question Name">
+                            <br>
+                            <label for="a"> Answers list</label>
+                            <div class="d-flex flex-column mb-3">
+                              <div class="p-2 group d-flex flex-row"><input  value="1" name="choice" id="r1"  class=" mr-2" type="radio"><input type="text" id="ans1"  class="form-control "  placeholder="Answer 1"></div>
+                              <div class="p-2 group d-flex flex-row"><input  value="2" name="choice" id="r2"  class=" mr-2" type="radio"><input type="text" id="ans2" class="form-control "  placeholder="Answer 2" ></div>
+                              <div class="p-2 group d-flex flex-row"><input  value="3" name="choice" id="r3"   class=" mr-2" type="radio"><input type="text" id="ans3" class="form-control "  placeholder="Answer 3" ></div>
+                              <div class="p-2 group d-flex flex-row"><input  value="4" name="choice" id="r4"   class=" mr-2" type="radio"><input type="text" id="ans4" class="form-control "  placeholder="Answer 4"></div>
+                            </div>
+                        </div> 
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-warning btn-up" data-dismiss="modal" >Save</button>
+                          <button type="button" class="btn btn-danger" data-dismiss="modal" >Close</button>
+                        </div>
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
 </body>
 </html>
-<script src="../assets/js/Teacher/singleexam.js"></script>
+<script>
+const question=<?php echo json_encode($question);?>;
+const main_id=<?php echo $exam_main;?>;
+
+questionans()
+let dataId ;
+
+//load question
+function questionans(){
+  document.getElementById("jar").innerHTML="";
+    for(var i=0;i<question.length;i++)
+    {
+        var tr=document.createElement('tr');
+        var td1 = tr.appendChild(document.createElement('td'));
+        var td2 = tr.appendChild(document.createElement('td'));
+        var td3 = tr.appendChild(document.createElement('td'));
+        anwser='';
+        for(var j=0;j<5;j++){
+            if(j==0){
+                td1.innerHTML=question[i][j];
+            }
+            if(j>=1 && j<4){
+                anwser+=question[i][j]+',';
+             }
+            if(j==4){
+                anwser+=question[i][j];
+            }
+         
+            td2.innerHTML=anwser
+        }
+        td3.innerHTML='<button type="button" id="edit" data-id="'+i+'" class="btn btn-sm btn-primary mr-2 edit" ><i class="fas fa-edit"></i></button><button type="button" id="delete" data-id="'+i+'" class="btn btn-danger btn-sm delete" ><i class="fas fa-trash-alt"></i></button>'
+      
+        document.getElementById("jar").append(tr); 
+    }
+    
+}
+
+//edit part
+$("#tbl").on('click', '.edit', function () {
+    dataId = $(this).attr("data-id");
+    console.log(dataId);
+    document.getElementById("question").value=question[dataId][0];
+    document.getElementById("ans1").value=question[dataId][1];
+    document.getElementById("r1").value=question[dataId][1];
+    document.getElementById("ans2").value=question[dataId][2];
+    document.getElementById("r2").value=question[dataId][2];
+    document.getElementById("ans3").value=question[dataId][3];
+    document.getElementById("r3").value=question[dataId][3];
+    document.getElementById("ans4").value=question[dataId][4];
+    document.getElementById("r4").value=question[dataId][4];
+
+  
+
+   const nodeList = document.querySelectorAll("[name='choice']");
+   console.log(nodeList)
+   for(var i=0; i<nodeList.length; i++)
+  {
+
+    if(question[dataId][5]==nodeList[i].value)
+    {
+      nodeList[i].checked=true;
+    }
+  }
+
+    $('#myModal').modal('show');
+  });
+
+  $(function () 
+  {
+  $('.btn-up').click(function(){
+    var question1=document.getElementById('question').value;
+    var ans1=document.getElementById('ans1').value;
+    var ans2=document.getElementById('ans2').value;
+    var ans3=document.getElementById('ans3').value;
+    var ans4=document.getElementById('ans4').value;
+    var ele = document.getElementsByName('choice');
+
+    for(i = 0; i < ele.length; i++) {
+        if(ele[i].checked)
+           question[dataId][5]=ele[i].value;
+    }
+
+    if(question1==''){
+      alert('fill out the question field');
+      return false
+    }
+    if(ans1==''){
+      alert('fill out the Answer 1 field');
+      return false
+    }
+    if(ans2==''){
+      alert('fill out the Answer 2 field');
+      return false
+    }
+    if(ans3==''){
+      alert('fill out the Answer 3 field');
+      return false
+    }
+    if(ans4==''){
+      alert('fill out the Answer 4 field');
+      return false
+    }
+
+    question[dataId][0]=question1;
+    question[dataId][1]=ans1;
+    question[dataId][2]=ans2;
+    question[dataId][3]=ans3;
+    question[dataId][4]=ans4;
+  
+    questionans()
+
+  })
+})
+
+//add question
+$(function () 
+  {
+  $('.btn-add').click(function(){
+    var ques=document.getElementById("add-question").value;
+    var ans1=document.getElementById("add-ans1").value;
+    var ans2=document.getElementById("add-ans2").value;
+    var ans3=document.getElementById("add-ans3").value;
+    var ans4=document.getElementById("add-ans4").value;
+    var ele = document.getElementsByName('add-choice');
+    var anwser='';
+
+    for(i = 0; i < ele.length; i++) {
+        if(ele[i].checked)
+           anwser=ele[i].value;
+    }
+    if(ques==''){
+      alert('fill out the question field');
+      return false
+    }
+    if(ans1==''){
+      alert('fill out the Answer 1 field');
+      return false
+    }
+    if(ans2==''){
+      alert('fill out the Answer 2 field');
+      return false
+    }
+    if(ans3==''){
+      alert('fill out the Answer 3 field');
+      return false
+    }
+    if(ans4==''){
+      alert('fill out the Answer 4 field');
+      return false
+    }
+
+    if(anwser==''){
+      alert('select the correct answer');
+      return false
+    }
+    let check=parseInt(anwser);
+    switch (check) 
+    {
+      case 1:
+       var correctans = ans1;
+        break;
+      case 2:
+        var correctans = ans2;
+        break;
+      case 3:
+        var correctans = ans3;
+        break;
+      case 4:
+        var correctans = ans4;
+        break;
+    }
+
+    const temp=[ques,ans1,ans2,ans3,ans4,correctans]
+    question.push(temp)
+    document.getElementById("add-question").value=''
+    document.getElementById("add-ans1").value=''
+    document.getElementById("add-ans2").value=''
+    document.getElementById("add-ans3").value=''
+    document.getElementById("add-ans4").value=''
+
+    $("[type=radio]").prop("checked",false);
+    $(".Correct").css("display", "none");
+    questionans()
+
+  })
+})
+
+// save
+$(function () 
+  {
+  $('#btn-save').click(function(){
+    var exam=document.getElementById("examName").value;
+    var examdatetime=document.getElementById("datetimepicker").value;
+    var duration=document.getElementById("durationTime").value;
+    if(exam==''){
+      alert("Please fil the Exam name")
+      return false
+    }
+    if(examdatetime==''){
+      alert("Please select exam start datetime")
+      return false
+    }
+    if(duration==''){
+      alert("Please enter duration")
+      return false
+    }
+    
+    $.ajax({  
+        url:'save.php',  
+        method:"POST",  
+        data:{main_id:main_id,question:question,exam:exam,examdatetime:examdatetime,duration:duration}, 
+        type:'JSON', 
+        success:function(data){  
+          location.assign(data);
+
+        }  
+    })  
+  })
+})
+
+
+
+
+//publish
+$(function () 
+  {
+  $('#btn-pub').click(function(){
+    var exam=document.getElementById("examName").value;
+    var examdatetime=document.getElementById("datetimepicker").value;
+    var duration=document.getElementById("durationTime").value;
+    if(exam==''){
+      alert("Please fil the Exam name")
+      return false
+    }
+    if(examdatetime==''){
+      alert("Please select exam start datetime")
+      return false
+    }
+    if(duration==''){
+      alert("Please enter duration")
+      return false
+    }
+    if (question.length === 0){
+      alert("Please add atleast one question")
+      return false
+    }
+
+    
+    $.ajax({  
+        url:'publish.php',  
+        method:"POST",  
+        data:{main_id:main_id,question:question,exam:exam,examdatetime:examdatetime,duration:duration}, 
+        type:'JSON', 
+        success:function(data){  
+          location.assign(data);
+
+        }  
+    })  
+  })
+})
+
+//delete row
+  $("#tbl").on('click', '.delete', function () {
+  var id = $(this).attr("data-id");
+  question.splice(id,1);
+  $(this).closest('tr').remove();
+});
+
+
+
+if (document.querySelector('input[name="main"]')) {
+    document.querySelectorAll('input[name="main"]').forEach((elem) => {
+      elem.addEventListener("change", function(event) {
+        $(".Correct").css("display", "none");
+        $(this).next("span").css("display", "block");
+      });
+    });
+  }
+  
+jQuery('#datetimepicker').datetimepicker({
+  minDate: new Date(),
+});
+</script>
+

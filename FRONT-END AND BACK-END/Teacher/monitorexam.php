@@ -167,7 +167,7 @@ clearInterval(x);
                             <h3>Exam Completed</h3>
                                 <div class="align-items-center row d-flex flex-column  ">
                                     <h1 class="Student"><?php echo $NoAttenStudents ;?>/<?php echo $noofstudent; ?></h2>
-                                    <label for="" id="time"><?php echo $_SESSION['start_time'];?></label>
+                                    <label for="" id="time"><?php echo "Time left to start"." ".$_SESSION['start_time'];?></label>
                                 </div>
                         </div>
                         <div class="w-100 border Exam_time">
