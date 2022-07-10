@@ -347,23 +347,44 @@ $("#tbl").on('click', '.edit', function () {
     }
 
     if(question1==''){
-      alert('fill out the question field');
+      Swal.fire(
+          'Update Question',
+          'fill out the question field!',
+          'error'
+      )
       return false
     }
     if(ans1==''){
-      alert('fill out the Answer 1 field');
+      Swal.fire(
+          'Update Question',
+          'fill out the Answer 1 field!',
+          'error'
+      )
       return false
     }
     if(ans2==''){
-      alert('fill out the Answer 2 field');
+      Swal.fire(
+          'Update Question',
+          'fill out the Answer 2 field!',
+          'error'
+      )
+    
       return false
     }
     if(ans3==''){
-      alert('fill out the Answer 3 field');
+      Swal.fire(
+          'Update Question',
+          'fill out the Answer 3 field!',
+          'error'
+      )
       return false
     }
     if(ans4==''){
-      alert('fill out the Answer 4 field');
+      Swal.fire(
+          'Update Question',
+          'fill out the Answer 4 field!',
+          'error'
+      )
       return false
     }
 
@@ -395,28 +416,52 @@ $(function ()
            anwser=ele[i].value;
     }
     if(ques==''){
-      alert('fill out the question field');
+      Swal.fire(
+          'New Question',
+          'fill out the question field!',
+          'error'
+      )
       return false
     }
     if(ans1==''){
-      alert('fill out the Answer 1 field');
+      Swal.fire(
+          'New Question',
+          'fill out the Answer 1 field!',
+          'error'
+      )
       return false
     }
     if(ans2==''){
-      alert('fill out the Answer 2 field');
+      Swal.fire(
+          'New Question',
+          'fill out the Answer 2 field!',
+          'error'
+      )
       return false
     }
     if(ans3==''){
-      alert('fill out the Answer 3 field');
+      Swal.fire(
+          'New Question',
+          'fill out the Answer 3 field!',
+          'error'
+      )
       return false
     }
     if(ans4==''){
-      alert('fill out the Answer 4 field');
+      Swal.fire(
+          'New Question',
+          'fill out the Answer 4 field!',
+          'error'
+      )
       return false
     }
 
     if(anwser==''){
-      alert('select the correct answer');
+      Swal.fire(
+          'New Question',
+          'select the correct answer!',
+          'error'
+      )
       return false
     }
     let check=parseInt(anwser);
@@ -459,15 +504,27 @@ $(function ()
     var examdatetime=document.getElementById("datetimepicker").value;
     var duration=document.getElementById("durationTime").value;
     if(exam==''){
-      alert("Please fil the Exam name")
+      Swal.fire(
+          'Exam',
+          'Please fil the Exam name!',
+          'error'
+      )
       return false
     }
     if(examdatetime==''){
-      alert("Please select exam start datetime")
+      Swal.fire(
+          'Exam',
+          'Please select exam start datetime!',
+          'error'
+      )
       return false
     }
     if(duration==''){
-      alert("Please enter duration")
+      Swal.fire(
+          'Exam',
+          'Please enter duration!',
+          'error'
+      )
       return false
     }
     
@@ -495,19 +552,36 @@ $(function ()
     var examdatetime=document.getElementById("datetimepicker").value;
     var duration=document.getElementById("durationTime").value;
     if(exam==''){
-      alert("Please fil the Exam name")
+      Swal.fire(
+          'Exam',
+          'Please fil the Exam name!',
+          'error'
+      )
       return false
     }
     if(examdatetime==''){
-      alert("Please select exam start datetime")
+      Swal.fire(
+          'Exam',
+          'Please select exam start datetime!',
+          'error'
+      )
       return false
     }
     if(duration==''){
-      alert("Please enter duration")
+      Swal.fire(
+          'Exam',
+          'Please enter duration!',
+          'error'
+      )
       return false
     }
     if (question.length === 0){
-      alert("Please add atleast one question")
+      Swal.fire(
+          'Exam',
+          'Please add atleast one question!',
+          'error'
+      )
+    
       return false
     }
 
